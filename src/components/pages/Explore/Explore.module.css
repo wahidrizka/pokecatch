@@ -10,3 +10,32 @@
     padding: 10px 0;
   }
 }
+
+.Grid {
+  display: grid;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+@media (min-width: 640px) {
+  .Grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .Grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .Grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.Footer {
+  display: flex;
+  padding-top: 24px;
+}

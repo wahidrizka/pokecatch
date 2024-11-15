@@ -16,7 +16,7 @@ export const Text: React.FC<ITextProps> = ({
 	children,
 	variant = "default",
 	size = "base",
-	as = "span",
+	as = "p",
 	...props
 }) => {
 	const PixelatedText = as;

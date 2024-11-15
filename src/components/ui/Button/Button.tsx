@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Text } from "..";
 import Link, { LinkProps } from "next/link";
 import Image from "next/image";
@@ -10,10 +9,11 @@ import styles from "./Button.module.css";
 const ButtonVariants = ["light", "dark", "sky"] as const;
 const ButtonSizes = ["large", "xlarge"] as const;
 
-interface IButtonProps extends LinkProps {
+interface IButtonProps extends Partial<LinkProps> {
 	variant?: (typeof ButtonVariants)[number];
 	size?: (typeof ButtonSizes)[number];
 	icon?: string;
+	as?: "a" | "button";
 }
 
 export const Button: React.FC<IButtonProps & React.PropsWithChildren> = ({
@@ -21,17 +21,17 @@ export const Button: React.FC<IButtonProps & React.PropsWithChildren> = ({
 	variant = "sky",
 	size = "large",
 	icon,
+	as = "a", // Default to "a" (Link)
 	...props
 }) => {
-	return (
-		<Link
-			className={clsx(
-				"pixelated-border",
-				styles[`Button`],
-				styles[`Button--Variant-${variant}`]
-			)}
-			{...props}
-		>
+	const commonClasses = clsx(
+		"pixelated-border",
+		styles[`Button`],
+		styles[`Button--Variant-${variant}`]
+	);
+
+	return as === "a" ? (
+		<Link className={commonClasses} {...(props as LinkProps)}>
 			{icon && (
 				<Image
 					src={icon}
@@ -44,5 +44,22 @@ export const Button: React.FC<IButtonProps & React.PropsWithChildren> = ({
 				{children}
 			</Text>
 		</Link>
+	) : (
+		<button
+			className={commonClasses}
+			{...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+		>
+			{icon && (
+				<Image
+					src={icon}
+					alt="button icon"
+					width={size === "xlarge" ? 40 : 20}
+					height={size === "xlarge" ? 40 : 20}
+				/>
+			)}
+			<Text variant="outlined" size={size}>
+				{children}
+			</Text>
+		</button>
 	);
 };

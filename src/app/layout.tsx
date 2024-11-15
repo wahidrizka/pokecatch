@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
+import { GlobalProvider } from "@/context";
 
 export const metadata: Metadata = {
 	title: "PokeCatch",
@@ -26,7 +27,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" className="font-pixelated">
-			<body>{children}</body>
+			<body>
+				<GlobalProvider>{children}</GlobalProvider>
+			</body>
 		</html>
 	);
 }

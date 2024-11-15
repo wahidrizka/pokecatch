@@ -1,0 +1,130 @@
+.Gradient-backdrop {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.Outer-nav {
+  padding: var(--spacing-base);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-base);
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .Outer-nav {
+    width: 80vh;
+  }
+}
+
+.Inner-nav {
+  display: flex;
+  gap: var(--spacing-base);
+}
+
+.NavItem-link {
+  flex-basis: 50%;
+  display: flex;
+}
+
+.Pixelated-NavItem {
+  display: flex;
+  gap: var(--spacing-small);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Light */
+/* Not matched */
+.Pixelated-NavItem--variant-light {
+  background-color: var(--base-color-yellow-200);
+}
+.Pixelated-NavItem--variant-light:not(.not-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-yellow-300);
+}
+.Pixelated-NavItem--variant-light:hover {
+  background-color: var(--base-color-yellow-100);
+}
+.Pixelated-NavItem--variant-light:active::after {
+  box-shadow: inset 4px 4px var(--base-color-yellow-300);
+}
+
+/* Matched */
+.Pixelated-NavItem--variant-light--matched {
+  background-color: var(--base-color-yellow-100);
+}
+.Pixelated-NavItem--variant-light--matched:not(.not-inset)::after {
+  box-shadow: inset 4px 4px var(--base-color-yellow-300);
+}
+.Pixelated-NavItem--variant-light--matched:hover {
+  background-color: var(--base-color-yellow-100);
+}
+.Pixelated-NavItem--variant-light--matched:active::after {
+  box-shadow: inset 4px 4px var(--base-color-yellow-300);
+}
+
+/* Dark */
+/* Not matched */
+.Pixelated-NavItem--variant-dark {
+  background-color: var(--base-color-gray-200);
+}
+.Pixelated-NavItem--variant-dark:not(.not-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-gray-300);
+}
+.Pixelated-NavItem--variant-dark:hover {
+  background-color: var(--base-color-gray-100);
+}
+.Pixelated-NavItem--variant-dark:active::after {
+  box-shadow: inset 4px 4px var(--base-color-gray-300);
+}
+
+/* Matched */
+.Pixelated-NavItem--variant-dark--matched {
+  background-color: var(--base-color-gray-100);
+}
+.Pixelated-NavItem--variant-dark--matched:not(.not-inset)::after {
+  box-shadow: inset 4px 4px var(--base-color-gray-300);
+}
+.Pixelated-NavItem--variant-dark--matched:hover {
+  background-color: var(--base-color-gray-100);
+}
+.Pixelated-NavItem--variant-dark--matched:active::after {
+  box-shadow: inset 4px 4px var(--base-color-gray-300);
+}
+
+/* Default */
+/* Not matched */
+.Pixelated-NavItem--variant-sky {
+  background-color: var(--base-color-sky-200);
+}
+.Pixelated-NavItem--variant-sky:not(.not-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-sky-300);
+}
+.Pixelated-NavItem--variant-sky:hover {
+  background-color: var(--base-color-sky-100);
+}
+.Pixelated-NavItem--variant-sky:active::after {
+  box-shadow: inset 4px 4px var(--base-color-sky-300);
+}
+
+/* Matched */
+.Pixelated-NavItem--variant-sky--matched {
+  background-color: var(--base-color-sky-100);
+}
+.Pixelated-NavItem--variant-sky--matched:not(.not-inset)::after {
+  box-shadow: inset 4px 4px var(--base-color-sky-300);
+}
+.Pixelated-NavItem--variant-sky--matched:hover {
+  background-color: var(--base-color-sky-100);
+}
+.Pixelated-NavItem--variant-sky--matched:active::after {
+  box-shadow: inset 4px 4px var(--base-color-sky-300);
+}

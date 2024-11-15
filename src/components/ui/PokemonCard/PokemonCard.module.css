@@ -1,0 +1,36 @@
+.Capture-quantity, .button {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.Card--cursor-default {
+  cursor: default;
+}
+
+.Card--cursor-pointer {
+  cursor: pointer;
+}
+
+.Card-hover-background-default:hover {
+  background-color: var(--base-color-gray-100);
+}
+
+.Card-hover-background-darker:hover {
+  background-color: var(--base-color-gray-200);
+}
+
+.Card-active-shadow-default:active::after {
+  box-shadow: inset -4px -4px var(--base-color-gray-300);
+}
+
+.Card-active-shadow-darker:active::after {
+  box-shadow: inset 4px 4px var(--base-color-gray-300);
+}
+
+.Card img {
+  margin: 0 auto;
+}
