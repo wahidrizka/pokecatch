@@ -1,0 +1,55 @@
+.Button {
+  display: flex;
+  gap: var(--spacing-small);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.Button--Variant-light {
+  background-color: var(--base-color-yellow-300);
+}
+
+.Button--Variant-light:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-yellow-300);
+}
+
+.Button--Variant-light:hover {
+  background-color: var(--base-color-yellow-100);
+}
+
+.Button--Variant-light:active::after {
+  box-shadow: inset 4px 4px var(--base-color-yellow-300);
+}
+
+.Button--Variant-dark {
+  background-color: var(--base-color-red-700);
+}
+
+.Button--Variant-dark:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-red-600);
+}
+
+.Button--Variant-dark:hover {
+  background-color: var(--base-color-yellow-500);
+}
+
+.Button--Variant-dark:active::after {
+  background-color: inset 4px 4px var(--base-color-red-300);
+}
+
+.Button--Variant-sky {
+  background-color: var(--base-color-sky-200);
+}
+
+.Button--Variant-sky:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-sky-300);
+}
+
+.Button--Variant-sky:hover {
+  background-color: var(--base-color-sky-100);
+}
+
+.Button--Variant-sky:active::after {
+  background-color: inset 4px 4px var(--base-color-sky-300);
+}

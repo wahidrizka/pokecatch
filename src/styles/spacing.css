@@ -1,0 +1,25 @@
+:root {
+  --spacing-none: 0;
+  --spacing-xsmall: 4px;
+  --spacing-small: 8px;
+  --spacing-base: 16px;
+  --spacing-lg: 24px;
+  --spacing-xlarge: 32px;
+  --spacing-2xl: 40px;
+  --spacing-3xl: 40px;
+}
+
+:root {
+  --shadow-spacing-base-0: 0.042rem;
+  --shadow-spacing-base-1: 0.055rem;
+  --shadow-spacing-base-2: 0.083rem;
+  --shadow-spacing-base-3: 0.166rem;
+  --shadow-spacing-large-0: 0.055rem;
+  --shadow-spacing-large-1: 0.111rem;
+  --shadow-spacing-large-2: 0.166rem;
+  --shadow-spacing-large-3: 0.222rem;
+  --shadow-spacing-xlarge-0: 0.111rem;
+  --shadow-spacing-xlarge-1: 0.222rem;
+  --shadow-spacing-xlarge-2: 0.333rem;
+  --shadow-spacing-xlarge-3: 0.444rem;
+}

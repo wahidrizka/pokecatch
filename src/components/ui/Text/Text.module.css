@@ -1,0 +1,49 @@
+.Variant--default {
+  color: var(--base-color-gray-800);
+}
+
+.Variant--outlined {
+  color: var(--base-color-gray-100);
+}
+
+.Variant--darker {
+  color: var(--base-color-gray-900);
+}
+
+.Variant--error {
+  color: var(--base-color-red-200);
+}
+
+.Size--base {
+  font-size: var(--text-size-base);
+}
+.Size--large {
+  font-size: var(--text-size-large);
+}
+.Size--xlarge {
+  font-size: var(--text-size-xlarge);
+}
+
+.Shadow--light-base {
+  text-shadow: var(--shadow-light-base);
+}
+
+.Shadow--light-large {
+  text-shadow: var(--shadow-light-large);
+}
+
+.Shadow--light-xlarge {
+  text-shadow: var(--shadow-light-xlarge);
+}
+
+.Shadow--bold-base {
+  text-shadow: var(--shadow-bold-base);
+}
+
+.Shadow--bold-large {
+  text-shadow: var(--shadow-bold-large);
+}
+
+.Shadow--bold-xlarge {
+  text-shadow: var(--shadow-bold-xlarge);
+}
