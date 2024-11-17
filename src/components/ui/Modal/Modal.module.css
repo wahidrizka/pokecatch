@@ -1,0 +1,51 @@
+.Overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.Overlay--bg-dark {
+  background-color: var(--base-color-gray-800);
+}
+.Overlay--bg-light {
+  background-color: var(--base-color-gray-100);
+}
+.Overlay--bg-error {
+  background-color: var(--base-color-red-500);
+}
+
+.Overlay--opacity-solid {
+  opacity: 1;
+}
+.Overlay--opacity-default {
+  opacity: 0.9;
+}
+
+.Overlay--zIndex-opened {
+  z-index: 50;
+}
+.Overlay--zIndex-closed {
+  z-index: 0;
+}
+
+.Content {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.Content--zIndex-opened {
+  z-index: 50;
+}
+.Content--zIndex-closed {
+  z-index: 0;
+}
+
+.Content > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}

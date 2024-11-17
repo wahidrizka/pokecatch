@@ -31,7 +31,7 @@
 }
 
 .Button--Variant-dark:hover {
-  background-color: var(--base-color-yellow-500);
+  background-color: var(--base-color-red-500);
 }
 
 .Button--Variant-dark:active::after {

@@ -1,10 +1,11 @@
+"use client";
 import React from "react";
 import { Text } from "..";
 import Link, { LinkProps } from "next/link";
-import Image from "next/image";
 import clsx from "clsx";
 
 import styles from "./Button.module.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const ButtonVariants = ["light", "dark", "sky"] as const;
 const ButtonSizes = ["large", "xlarge"] as const;
@@ -33,7 +34,7 @@ export const Button: React.FC<IButtonProps & React.PropsWithChildren> = ({
 	return as === "a" ? (
 		<Link className={commonClasses} {...(props as LinkProps)}>
 			{icon && (
-				<Image
+				<LazyLoadImage
 					src={icon}
 					alt="button icon"
 					width={size === "xlarge" ? 40 : 20}
@@ -50,7 +51,7 @@ export const Button: React.FC<IButtonProps & React.PropsWithChildren> = ({
 			{...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
 		>
 			{icon && (
-				<Image
+				<LazyLoadImage
 					src={icon}
 					alt="button icon"
 					width={size === "xlarge" ? 40 : 20}

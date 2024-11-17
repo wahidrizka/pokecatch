@@ -1,0 +1,113 @@
+.Type--card {
+  margin-right: 16px;
+}
+
+.Type--card-color--normal {
+  background-color: var(--base-color-normal-200);
+}
+.Type--card-color--fire {
+  background-color: var(--base-color-fire-300);
+}
+.Type--card-color--fighting {
+  background-color: var(--base-color-fighting-300);
+}
+.Type--card-color--water {
+  background-color: var(--base-color-water-300);
+}
+.Type--card-color--flying {
+  background-color: var(--base-color-flying-300);
+}
+.Type--card-color--grass {
+  background-color: var(--base-color-grass-300);
+}
+.Type--card-color--poison {
+  background-color: var(--base-color-poison-300);
+}
+.Type--card-color--electric {
+  background-color: var(--base-color-electric-300);
+}
+.Type--card-color--ground {
+  background-color: var(--base-color-ground-300);
+}
+.Type--card-color--psychic {
+  background-color: var(--base-color-psychic-300);
+}
+.Type--card-color--rock {
+  background-color: var(--base-color-rock-300);
+}
+.Type--card-color--ice {
+  background-color: var(--base-color-ice-300);
+}
+.Type--card-color--bug {
+  background-color: var(--base-color-bug-300);
+}
+.Type--card-color--dragon {
+  background-color: var(--base-color-dragon-300);
+}
+.Type--card-color--ghost {
+  background-color: var(--base-color-ghost-300);
+}
+.Type--card-color--dark {
+  background-color: var(--base-color-dark-300);
+}
+.Type--card-color--steel {
+  background-color: var(--base-color-steel-300);
+}
+.Type--card-color--fairy {
+  background-color: var(--base-color-fairy-300);
+}
+
+.Type--card-color--normal:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-normal-200), inset 4px 4px var(--base-color-normal-100);
+}
+.Type--card-color--fire:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-fire-300), inset 4px 4px var(--base-color-fire-100);
+}
+.Type--card-color--fighting:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-fighting-300), inset 4px 4px var(--base-color-fighting-100);
+}
+.Type--card-color--water:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-water-300), inset 4px 4px var(--base-color-water-100);
+}
+.Type--card-color--flying:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-flying-300), inset 4px 4px var(--base-color-flying-100);
+}
+.Type--card-color--grass:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-grass-300), inset 4px 4px var(--base-color-grass-100);
+}
+.Type--card-color--poison:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-poison-300), inset 4px 4px var(--base-color-poison-100);
+}
+.Type--card-color--electric:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-electric-300), inset 4px 4px var(--base-color-electric-100);
+}
+.Type--card-color--ground:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-ground-300), inset 4px 4px var(--base-color-ground-100);
+}
+.Type--card-color--psychic:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-psychic-300), inset 4px 4px var(--base-color-psychic-100);
+}
+.Type--card-color--rock:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-rock-300), inset 4px 4px var(--base-color-rock-100);
+}
+.Type--card-color--ice:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-ice-300), inset 4px 4px var(--base-color-ice-100);
+}
+.Type--card-color--bug:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-bug-300), inset 4px 4px var(--base-color-bug-100);
+}
+.Type--card-color--dragon:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-dragon-300), inset 4px 4px var(--base-color-dragon-100);
+}
+.Type--card-color--ghost:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-ghost-300), inset 4px 4px var(--base-color-ghost-100);
+}
+.Type--card-color--dark:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-dark-300), inset 4px 4px var(--base-color-dark-100);
+}
+.Type--card-color--steel:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-steel-300), inset 4px 4px var(--base-color-steel-100);
+}
+.Type--card-color--fairy:not(.no-inset)::after {
+  box-shadow: inset -4px -4px var(--base-color-fairy-300), inset 4px 4px var(--base-color-fairy-100);
+}
