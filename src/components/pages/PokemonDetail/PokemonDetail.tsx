@@ -251,7 +251,7 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 
 						<div className="pxl-abilities">
 							<Text as="h3" variant="outlined">
-								Moves
+								Abilities
 							</Text>
 							{!loading ? (
 								abilities &&
@@ -264,6 +264,28 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 								</div>
 							)}
 						</div>
+					</div>
+
+					<div className="pxl-moves">
+						<Text as="h3">Moves</Text>
+						{!loading ? (
+							<div className={clsx(styles["Grid"])}>
+								{moves &&
+									moves.map((move: string, moveIndex: number) => (
+										<div
+											key={moveIndex}
+											className={clsx("pixelated-border")}
+											style={{ marginBottom: 16, marginRight: 16 }}
+										>
+											<Text>{move}</Text>
+										</div>
+									))}
+							</div>
+						) : (
+							<div className={clsx(styles["Description--loading-wrapper"])}>
+								<Loading label="Loading Pokemon's abilities..." />
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
