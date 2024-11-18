@@ -1,4 +1,4 @@
-.Capture-quantity, .button {
+.Card .Captured-quantity, .Card button {
   position: absolute;
   top: 4px;
   right: 8px;

@@ -1,0 +1,67 @@
+.Page {
+  padding: 0 16px;
+}
+@media (min-width: 1024px) {
+  .Page {
+    padding: 0 128px;
+  }
+}
+
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0;
+}
+
+.Grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 640px) {
+  .Grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .Grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1280px) {
+  .Grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.Wrapper-card-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.Empty--state {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-base);
+}
+
+.Delete--confirmation-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  padding: 0 16px;
+}
+.Delete--confirmation-modal div:last-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}

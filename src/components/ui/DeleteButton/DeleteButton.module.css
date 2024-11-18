@@ -1,0 +1,11 @@
+.Delete--button {
+  padding: var(--spacing-small);
+  z-index: 1;
+  cursor: pointer;
+}
+.Delete--button:hover {
+  background-color: var(--base-color-gray-200);
+}
+.Delete--button:active::after {
+  box-shadow: inset 4px 4px var(--base-color-gray-400);
+}

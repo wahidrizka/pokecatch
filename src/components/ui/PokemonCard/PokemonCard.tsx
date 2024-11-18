@@ -66,7 +66,7 @@ export const PokemonCard: React.FC<PokemonCardType> = ({
 			<Text variant="outlined">{name}</Text>
 			{children}
 			{captured ? (
-				<div className={clsx(styles["captured-quantity"])}>
+				<div className={clsx(styles["Captured-quantity"])}>
 					<img
 						src="/static/pokeball.png"
 						alt="pokeball"
