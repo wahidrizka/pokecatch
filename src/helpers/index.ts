@@ -30,8 +30,15 @@ export const generatePokemonSummary = (
 };
 
 export const loadMyPokemonFromLocalStorage = (): MyPokemonType[] => {
-	const rawPokemons = localStorage.getItem("pokecatch@myPokemon");
-	const parsed = JSON.parse(rawPokemons!) || [];
+	if (typeof window === "undefined") {
+		return [];
+	}
 
-	return parsed;
+	const rawPokemons = localStorage.getItem("pokecatch@myPokemon");
+	try {
+		return rawPokemons ? JSON.parse(rawPokemons) : [];
+	} catch (error) {
+		console.error("Failed to parse data from localStorage:", error);
+		return [];
+	}
 };
