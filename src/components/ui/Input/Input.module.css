@@ -1,0 +1,9 @@
+.Pixelated--input input {
+  font-size: var(--text-size-large);
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+}
+.Pixelated--input input::placeholder {
+  color: var(--base-color-gray-200);
+}

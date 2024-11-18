@@ -15,6 +15,7 @@ interface IButtonProps extends Partial<LinkProps> {
 	size?: (typeof ButtonSizes)[number];
 	icon?: string;
 	as?: "a" | "button";
+	type?: "button" | "submit" | "reset";
 }
 
 export const Button: React.FC<IButtonProps & React.PropsWithChildren> = ({
@@ -23,6 +24,7 @@ export const Button: React.FC<IButtonProps & React.PropsWithChildren> = ({
 	size = "large",
 	icon,
 	as = "a", // Default to "a" (Link)
+	type = "button",
 	...props
 }) => {
 	const commonClasses = clsx(
@@ -48,6 +50,7 @@ export const Button: React.FC<IButtonProps & React.PropsWithChildren> = ({
 	) : (
 		<button
 			className={commonClasses}
+			type={type}
 			{...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
 		>
 			{icon && (

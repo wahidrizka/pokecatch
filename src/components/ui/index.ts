@@ -5,3 +5,4 @@ export * from "./Loading";
 export * from "./Navbar";
 export * from "./Modal";
 export * from "./StatsBar";
+export * from "./Input";

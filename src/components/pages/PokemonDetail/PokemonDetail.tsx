@@ -1,7 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { Button, Loading, Modal, Navbar, StatsBar, Text } from "@/components";
-import React from "react";
+import {
+	Button,
+	Input,
+	Loading,
+	Modal,
+	Navbar,
+	StatsBar,
+	Text,
+} from "@/components";
+import React, { ChangeEvent } from "react";
 import clsx from "clsx";
 import styles from "./PokemonDetail.module.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -11,6 +19,7 @@ import { getDetailPokemon } from "@/services/pokemon";
 import { generatePokemonSummary } from "@/helpers";
 import toast from "react-hot-toast";
 import { TypeCard } from "@/components/ui/TypeCard/TypeCard";
+import Link from "next/link";
 
 type PokemonTypes = { type: { name: string } };
 type PokemonMoves = { move: { name: string } };
@@ -50,8 +59,8 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 			setTypes(response.types.map((type: PokemonTypes) => type.type.name));
 			setMoves(response?.moves.map((move: PokemonMoves) => move.move?.name));
 			setSprite(
-				response?.sprites.versions?.["generation-v"]?.["black-white"].animated
-					.front_default || response?.sprites.front_default
+				response?.sprites.other?.["showdown"]?.front_default ||
+					response?.sprites.front_default
 			);
 
 			setStats(response?.stats);
@@ -103,28 +112,25 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 
 		const currentCollection = localStorage.getItem("pokecatch@myPokemon");
 		const parsed: { name: string; nickname: string; sprite: string }[] =
-			JSON.parse(currentCollection!) || [];
+			JSON.parse(currentCollection || "[]");
 
-		let isUnique = true;
-		for (const collection of parsed) {
-			if (collection.nickname === nickname) {
-				setNicknameValid(false);
-				isUnique = false;
-				return;
-			} else {
-				if (!nicknameValid) {
-					setNicknameValid(true);
-				}
-				isUnique = true;
-			}
+		const isUnique = !parsed.some(
+			(collection) => collection.nickname === nickname
+		);
 
-			if (isUnique) {
-				parsed.push({ name: name!.toUpperCase(), nickname, sprite });
-				localStorage.setItem("pokecatch@myPokemon", JSON.stringify(parsed));
-				setState({ pokemonSummary: generatePokemonSummary(parsed) });
-				setSaved(true);
-			}
+		if (!isUnique) {
+			setNicknameValid(false);
+			return;
 		}
+
+		setNicknameValid(true);
+
+		const newPokemon = { name: name!.toUpperCase(), nickname, sprite };
+		parsed.push(newPokemon);
+
+		localStorage.setItem("pokecatch@myPokemon", JSON.stringify(parsed));
+		setState({ pokemonSummary: generatePokemonSummary(parsed) });
+		setSaved(true);
 	}
 
 	React.useEffect(() => {
@@ -161,6 +167,7 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 				<div>
 					<div className={clsx(styles["Image--container"])}>
 						<LazyLoadImage
+							className={clsx(styles["Pokemon--sprite"])}
 							src={sprite}
 							alt="name"
 							width={320}
@@ -169,6 +176,142 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 							loading="lazy"
 						/>
 					</div>
+
+					<div style={{ display: "grid", placeItems: "center" }}>
+						<LazyLoadImage
+							className={clsx(styles["Pokeball"])}
+							src="/static/pokeball.png"
+							alt="Pokeball"
+							width={128}
+							height={128}
+						/>
+						<Text variant="outlined" size="xlarge">
+							Catching...
+						</Text>
+					</div>
+				</div>
+			</Modal>
+
+			{endPhase && (
+				<>
+					<Modal open={!caught} overlay="error">
+						<div className={clsx(styles["Post--catch-modal"])}>
+							<div className={clsx(styles["Image--container"])}>
+								<LazyLoadImage
+									src={sprite}
+									alt={name}
+									width={320}
+									height={320}
+									effect="blur"
+									loading="lazy"
+								/>
+							</div>
+
+							<LazyLoadImage
+								src="/static/pokeball.png"
+								alt="pokeball"
+								width={128}
+								height={128}
+							/>
+							<Text variant="outlined" size="xlarge">
+								Oh no, {name?.toUpperCase()} broke free!
+							</Text>
+						</div>
+					</Modal>
+					<Modal open={caught} overlay="light">
+						<div className={clsx(styles["Post--catch-modal"])}>
+							<div className={clsx(styles["Image--container"])}>
+								<LazyLoadImage
+									src={sprite}
+									alt={name}
+									width={320}
+									height={320}
+									effect="blur"
+									loading="lazy"
+								/>
+							</div>
+
+							<LazyLoadImage
+								src="/static/pokeball.png"
+								alt="pokeball"
+								width={128}
+								height={128}
+							/>
+							<Text variant="outlined" size="xlarge">
+								Gotcha! {name?.toUpperCase()} was caught!
+							</Text>
+						</div>
+					</Modal>
+				</>
+			)}
+
+			<Modal open={nicknameModal} overlay="light" solid>
+				<div className={clsx(styles["Nicknaming--modal"])}>
+					<div className={clsx(styles["Image--container"])}>
+						<LazyLoadImage
+							className={clsx(styles["Pokemon--sprite"])}
+							src={sprite}
+							alt={name}
+							width={320}
+							height={320}
+							effect="blur"
+							loading="lazy"
+						/>
+					</div>
+
+					{!saved ? (
+						<form
+							className={clsx(styles["Nicknaming--form"])}
+							onSubmit={onNicknameSave}
+						>
+							{nicknameValid ? (
+								<div
+									className={clsx("pixelated-border")}
+									style={{ textAlign: "left" }}
+								>
+									<Text>Congratulations!</Text>
+									<Text>You just caught a {name?.toUpperCase()}</Text>
+									<br />
+									<Text>
+										Now please give {name?.toUpperCase()} a nickname...
+									</Text>
+								</div>
+							) : (
+								<div
+									className={clsx("pixelated-border")}
+									style={{ textAlign: "left" }}
+								>
+									<Text variant="error">Nickname is taken</Text>
+									<Text>Please pick another nickname...</Text>
+								</div>
+							)}
+
+							<Input
+								required
+								placeholder="enter a nickname"
+								onChange={(e: ChangeEvent<HTMLInputElement>) =>
+									setNickname(e.target.value.toUpperCase())
+								}
+							/>
+							<Button as="button" type="submit">
+								Save
+							</Button>
+						</form>
+					) : (
+						<div className={clsx(styles["Another--wrapper"])}>
+							<div
+								className={clsx("pixelated-border")}
+								style={{ textAlign: "left" }}
+							>
+								<Text>Whoosh! {nickname} is now in your Pokemon list</Text>
+							</div>
+
+							<Button href="/my-pokemon" variant="light">
+								See My Pokemon
+							</Button>
+							<Button href="/pokemons">Catch Another Pokemon</Button>
+						</div>
+					)}
 				</div>
 			</Modal>
 
@@ -217,6 +360,7 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 					<div className={clsx(styles["Pokemon-sprite"])}>
 						{!loading ? (
 							<LazyLoadImage
+								className={clsx(styles["Pokemon--sprite"])}
 								src={sprite}
 								alt={name}
 								width={256}

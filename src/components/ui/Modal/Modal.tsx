@@ -21,11 +21,14 @@ export const Modal: React.FC<ModalType> = ({
 					styles["Overlay"],
 					styles[`Overlay--bg-${overlay}`],
 					styles[`Overlay--opacity-${solid}`],
-					styles[`Overlay--zIndex-${open}`]
+					styles[`Overlay--zIndex-${open ? "opened" : "closed"}`]
 				)}
 			>
 				<div
-					className={clsx(styles["Content"], styles[`Content--zIndex-${open}`])}
+					className={clsx(
+						styles["Content"],
+						styles[`Content--zIndex-${open ? "opened" : "closed"}`]
+					)}
 				>
 					<div>{children}</div>
 				</div>
