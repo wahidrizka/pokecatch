@@ -59,7 +59,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 16;
+  gap: 16px;
 }
 
 .Page > img {
