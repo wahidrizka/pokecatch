@@ -117,7 +117,9 @@ export const MyPokemon: React.FC = () => {
 					</div>
 				) : (
 					<div className={clsx(styles["Empty--state"])}>
-						<Text> You haven&apos;t caught any pokemon yet!</Text>
+						<Text variant="outlined">
+							You haven&apos;t caught any pokemon yet!
+						</Text>
 						<Link href="/pokemons">
 							<Button as="button" variant="light">
 								Explore pokemons
