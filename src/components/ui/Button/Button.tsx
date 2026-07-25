@@ -7,12 +7,12 @@ import clsx from "clsx";
 import styles from "./Button.module.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-const ButtonVariants = ["light", "dark", "sky"] as const;
-const ButtonSizes = ["large", "xlarge"] as const;
+type ButtonVariant = "light" | "dark" | "sky";
+type ButtonSize = "large" | "xlarge";
 
 interface IButtonProps extends Partial<LinkProps> {
-	variant?: (typeof ButtonVariants)[number];
-	size?: (typeof ButtonSizes)[number];
+	variant?: ButtonVariant;
+	size?: ButtonSize;
 	icon?: string;
 	as?: "a" | "button";
 	type?: "button" | "submit" | "reset";
