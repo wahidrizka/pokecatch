@@ -9,16 +9,12 @@ import {
 	Text,
 } from "@/components";
 import { useGlobalContext } from "@/context";
-import {
-	generatePokemonSummary,
-	loadMyPokemonFromLocalStorage,
-} from "@/helpers";
+import { loadMyPokemonFromLocalStorage, persistMyPokemon } from "@/helpers";
 import { MyPokemonType } from "@/types/pokemon";
 import clsx from "clsx";
 import React from "react";
 import styles from "./MyPokemon.module.css";
 import Link from "next/link";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const MyPokemon: React.FC = () => {
 	const [pokemons, setPokemons] = React.useState<MyPokemonType[]>([]);
@@ -29,24 +25,18 @@ export const MyPokemon: React.FC = () => {
 	const { setState } = useGlobalContext();
 	const navRef = React.createRef<HTMLDivElement>();
 
-	function loadMyPokemon() {
-		const parsed = loadMyPokemonFromLocalStorage();
-		setPokemons(parsed);
-	}
-
 	React.useEffect(() => {
 		setNavHeight(navRef.current?.clientHeight as number);
-		loadMyPokemon();
+		setPokemons(loadMyPokemonFromLocalStorage());
 	}, []);
 
 	function releasePokemon(nickname: string) {
-		const newCollection = pokemons.filter(
+		const remaining = pokemons.filter(
 			(pokemon: MyPokemonType) => pokemon.nickname !== nickname
 		);
-		localStorage.setItem("pokecatch@myPokemon", JSON.stringify(newCollection));
 
-		loadMyPokemon();
-		setState({ pokemonSummary: generatePokemonSummary(newCollection) });
+		setPokemons(remaining);
+		setState({ pokemonSummary: persistMyPokemon(remaining) });
 	}
 
 	return (

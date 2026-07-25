@@ -34,7 +34,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
 	const [state, setGlobalContext] = useState<StateType>(initialState);
 
 	const setState = (param: StateType) => {
-		setGlobalContext({ ...state, ...param });
+		setGlobalContext((previous) => ({ ...previous, ...param }));
 	};
 
 	return (

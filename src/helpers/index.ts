@@ -1,44 +1,39 @@
 import { MyPokemonType, PokemonSummaryType } from "@/types/pokemon";
 
+const MY_POKEMON_STORAGE_KEY = "pokecatch@myPokemon";
+
 export const generatePokemonSummary = (
 	pokemons: MyPokemonType[]
 ): PokemonSummaryType[] => {
-	const results: { name: string; captured: number }[] = [];
+	const capturedByName = new Map<string, number>();
 
-	pokemons.forEach((pokemon, idx) => {
-		let pokemonExists = false;
+	for (const pokemon of pokemons) {
+		capturedByName.set(pokemon.name, (capturedByName.get(pokemon.name) ?? 0) + 1);
+	}
 
-		if (idx === 0) {
-			results.push({ name: pokemon.name, captured: 1 });
-		} else {
-			for (const result of results) {
-				if (result.name === pokemon.name) {
-					pokemonExists = true;
-				}
-			}
-
-			if (pokemonExists) {
-				const pokemonIdx = results.findIndex((el) => el.name === pokemon.name);
-				results[pokemonIdx].captured++;
-			} else {
-				results.push({ name: pokemon.name, captured: 1 });
-			}
-		}
-	});
-
-	return results;
+	return Array.from(capturedByName, ([name, captured]) => ({ name, captured }));
 };
 
 export const loadMyPokemonFromLocalStorage = (): MyPokemonType[] => {
-	if (typeof window === "undefined") {
-		return [];
-	}
+	if (typeof window === "undefined") return [];
 
-	const rawPokemons = localStorage.getItem("pokecatch@myPokemon");
 	try {
+		const rawPokemons = localStorage.getItem(MY_POKEMON_STORAGE_KEY);
 		return rawPokemons ? JSON.parse(rawPokemons) : [];
 	} catch (error) {
 		console.error("Failed to parse data from localStorage:", error);
 		return [];
 	}
+};
+
+/**
+ * Satu-satunya jalur tulis koleksi. Mengembalikan summary terbaru supaya pemanggil
+ * bisa menyinkronkan GlobalContext dalam langkah yang sama — kedua sumber state
+ * tidak boleh diperbarui terpisah.
+ */
+export const persistMyPokemon = (
+	pokemons: MyPokemonType[]
+): PokemonSummaryType[] => {
+	localStorage.setItem(MY_POKEMON_STORAGE_KEY, JSON.stringify(pokemons));
+	return generatePokemonSummary(pokemons);
 };

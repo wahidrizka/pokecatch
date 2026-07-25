@@ -7,3 +7,4 @@ export * from "./Modal";
 export * from "./StatsBar";
 export * from "./Input";
 export * from "./DeleteButton";
+export * from "./TypeCard";
