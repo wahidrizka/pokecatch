@@ -8,6 +8,7 @@ import {
 	Navbar,
 	StatsBar,
 	Text,
+	TypeCard,
 } from "@/components";
 import React, { ChangeEvent } from "react";
 import clsx from "clsx";
@@ -16,10 +17,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useGlobalContext } from "@/context";
 import { PokemonDetailType } from "@/types/pokemon";
 import { getDetailPokemon } from "@/services/pokemon";
-import { generatePokemonSummary } from "@/helpers";
+import { loadMyPokemonFromLocalStorage, persistMyPokemon } from "@/helpers";
 import toast from "react-hot-toast";
-import { TypeCard } from "@/components/ui/TypeCard/TypeCard";
-import Link from "next/link";
 
 type PokemonTypes = { type: { name: string } };
 type PokemonMoves = { move: { name: string } };
@@ -107,29 +106,24 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 		}, 1200);
 	}
 
-	async function onNicknameSave(e: React.FormEvent) {
+	function onNicknameSave(e: React.FormEvent) {
 		e.preventDefault();
 
-		const currentCollection = localStorage.getItem("pokecatch@myPokemon");
-		const parsed: { name: string; nickname: string; sprite: string }[] =
-			JSON.parse(currentCollection || "[]");
+		const collection = loadMyPokemonFromLocalStorage();
 
-		const isUnique = !parsed.some(
-			(collection) => collection.nickname === nickname
-		);
-
-		if (!isUnique) {
+		if (collection.some((pokemon) => pokemon.nickname === nickname)) {
 			setNicknameValid(false);
 			return;
 		}
 
 		setNicknameValid(true);
 
-		const newPokemon = { name: name!.toUpperCase(), nickname, sprite };
-		parsed.push(newPokemon);
+		const updated = [
+			...collection,
+			{ name: name.toUpperCase(), nickname, sprite },
+		];
 
-		localStorage.setItem("pokecatch@myPokemon", JSON.stringify(parsed));
-		setState({ pokemonSummary: generatePokemonSummary(parsed) });
+		setState({ pokemonSummary: persistMyPokemon(updated) });
 		setSaved(true);
 	}
 
