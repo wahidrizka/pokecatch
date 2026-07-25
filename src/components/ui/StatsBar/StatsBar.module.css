@@ -1,0 +1,11 @@
+.Track {
+  width: 50%;
+  margin-left: var(--spacing-lg);
+  background-color: var(--base-color-gray-300);
+}
+
+.Fill {
+  height: 100%;
+  text-align: right;
+  white-space: nowrap;
+}
