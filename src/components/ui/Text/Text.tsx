@@ -2,14 +2,14 @@ import clsx from "clsx";
 import React from "react";
 import styles from "./Text.module.css";
 
-const TextVariants = ["default", "outlined", "darker", "error"] as const;
-const TextSizes = ["base", "large", "xlarge"] as const;
-const TextElements = ["span", "p", "h1", "h2", "h3", "h4"] as const;
+type TextVariant = "default" | "outlined" | "darker" | "error";
+type TextSize = "base" | "large" | "xlarge";
+type TextElement = "span" | "p" | "h1" | "h2" | "h3" | "h4";
 
 interface ITextProps extends React.HTMLAttributes<HTMLParagraphElement> {
-	variant?: (typeof TextVariants)[number];
-	size?: (typeof TextSizes)[number];
-	as?: (typeof TextElements)[number];
+	variant?: TextVariant;
+	size?: TextSize;
+	as?: TextElement;
 }
 
 export const Text: React.FC<ITextProps> = ({

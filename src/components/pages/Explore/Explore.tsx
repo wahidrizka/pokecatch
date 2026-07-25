@@ -10,6 +10,7 @@ import { useGlobalContext } from "@/context";
 import { PokemonType } from "@/types/pokemon";
 import Link from "next/link";
 import { getPokemonId } from "@/utils";
+import toast from "react-hot-toast";
 
 export const Explore: React.FC = () => {
 	const { state, setState } = useGlobalContext();
@@ -45,8 +46,9 @@ export const Explore: React.FC = () => {
 				setState({ pokemons: [...(state.pokemons || []), ...filteredSummary] });
 				setPokemonURL(response?.next || "");
 				setIsFetchingPokemon(false);
-			} catch (error) {
+			} catch {
 				setIsFetchingPokemon(false);
+				toast.error("Oops!. Fail get pokemons. Please try again!");
 			}
 		}
 	};
