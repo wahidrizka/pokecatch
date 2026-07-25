@@ -96,6 +96,7 @@ export const MyPokemon: React.FC = () => {
 										sprite={pokemon.sprite}
 									>
 										<DeleteButton
+											aria-label={`Release ${pokemon.nickname}`}
 											onClick={() => {
 												setSelectedPokemon(pokemon.nickname);
 												setDeleteConfirmation(true);
