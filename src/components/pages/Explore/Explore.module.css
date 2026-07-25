@@ -5,7 +5,8 @@
   text-align: center;
 }
 
-@media screen and (min-width: var(--screen-size-xlarge)) {
+/* var() tidak sah di dalam kondisi media query, jadi nilai --screen-size-xlarge ditulis literal. */
+@media screen and (min-width: 1280px) {
   .Container {
     padding: 10px 0;
   }

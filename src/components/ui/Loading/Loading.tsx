@@ -5,7 +5,7 @@ import styles from "./Loading.module.css";
 
 export const Loading: React.FC<{ label?: string }> = ({ label }) => {
 	return (
-		<div className={clsx(styles["loading"], styles["svg"])}>
+		<div className={clsx(styles["loading"])}>
 			<svg
 				width="40"
 				height="40"

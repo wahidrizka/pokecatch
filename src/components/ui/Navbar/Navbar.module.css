@@ -20,7 +20,7 @@
 
 @media (min-width: 640px) {
   .Outer-nav {
-    width: 80vh;
+    width: min(80vw, var(--screen-size-small));
   }
 }
 
@@ -47,7 +47,7 @@
 .Pixelated-NavItem--variant-light {
   background-color: var(--base-color-yellow-200);
 }
-.Pixelated-NavItem--variant-light:not(.not-inset)::after {
+.Pixelated-NavItem--variant-light:not(.no-inset)::after {
   box-shadow: inset -4px -4px var(--base-color-yellow-300);
 }
 .Pixelated-NavItem--variant-light:hover {
@@ -61,7 +61,7 @@
 .Pixelated-NavItem--variant-light--matched {
   background-color: var(--base-color-yellow-100);
 }
-.Pixelated-NavItem--variant-light--matched:not(.not-inset)::after {
+.Pixelated-NavItem--variant-light--matched:not(.no-inset)::after {
   box-shadow: inset 4px 4px var(--base-color-yellow-300);
 }
 .Pixelated-NavItem--variant-light--matched:hover {
@@ -76,7 +76,7 @@
 .Pixelated-NavItem--variant-dark {
   background-color: var(--base-color-gray-200);
 }
-.Pixelated-NavItem--variant-dark:not(.not-inset)::after {
+.Pixelated-NavItem--variant-dark:not(.no-inset)::after {
   box-shadow: inset -4px -4px var(--base-color-gray-300);
 }
 .Pixelated-NavItem--variant-dark:hover {
@@ -90,7 +90,7 @@
 .Pixelated-NavItem--variant-dark--matched {
   background-color: var(--base-color-gray-100);
 }
-.Pixelated-NavItem--variant-dark--matched:not(.not-inset)::after {
+.Pixelated-NavItem--variant-dark--matched:not(.no-inset)::after {
   box-shadow: inset 4px 4px var(--base-color-gray-300);
 }
 .Pixelated-NavItem--variant-dark--matched:hover {
@@ -105,7 +105,7 @@
 .Pixelated-NavItem--variant-sky {
   background-color: var(--base-color-sky-200);
 }
-.Pixelated-NavItem--variant-sky:not(.not-inset)::after {
+.Pixelated-NavItem--variant-sky:not(.no-inset)::after {
   box-shadow: inset -4px -4px var(--base-color-sky-300);
 }
 .Pixelated-NavItem--variant-sky:hover {
@@ -119,7 +119,7 @@
 .Pixelated-NavItem--variant-sky--matched {
   background-color: var(--base-color-sky-100);
 }
-.Pixelated-NavItem--variant-sky--matched:not(.not-inset)::after {
+.Pixelated-NavItem--variant-sky--matched:not(.no-inset)::after {
   box-shadow: inset 4px 4px var(--base-color-sky-300);
 }
 .Pixelated-NavItem--variant-sky--matched:hover {

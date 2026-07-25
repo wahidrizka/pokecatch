@@ -378,7 +378,7 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 
 				<div className={clsx(styles["Pokemon--content"])}>
 					<div className={clsx(styles["Abilities--wrapper"])}>
-						<div className="pxl-type">
+						<div>
 							<Text as="h3" variant="outlined">
 								Type
 							</Text>
@@ -393,7 +393,7 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 							)}
 						</div>
 
-						<div className="pxl-abilities">
+						<div>
 							<Text as="h3" variant="outlined">
 								Abilities
 							</Text>
@@ -410,7 +410,7 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 						</div>
 					</div>
 
-					<div className="pxl-moves">
+					<div>
 						<Text as="h3">Moves</Text>
 						{!loading ? (
 							<div className={clsx(styles["Grid"])}>
