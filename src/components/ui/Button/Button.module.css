@@ -35,7 +35,7 @@
 }
 
 .Button--Variant-dark:active::after {
-  background-color: inset 4px 4px var(--base-color-red-300);
+  box-shadow: inset 4px 4px var(--base-color-red-300);
 }
 
 .Button--Variant-sky {
@@ -51,5 +51,5 @@
 }
 
 .Button--Variant-sky:active::after {
-  background-color: inset 4px 4px var(--base-color-sky-300);
+  box-shadow: inset 4px 4px var(--base-color-sky-300);
 }

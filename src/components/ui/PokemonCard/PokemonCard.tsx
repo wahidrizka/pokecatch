@@ -31,7 +31,7 @@ export const PokemonCard: React.FC<PokemonCardType> = ({
 				styles["Card"],
 				nickname
 					? styles["Card--cursor-default"]
-					: styles["Card--cursor-darker"],
+					: styles["Card--cursor-pointer"],
 				nickname
 					? styles["Card-hover-background-default"]
 					: styles["Card-hover-background-darker"],

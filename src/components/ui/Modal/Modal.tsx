@@ -20,7 +20,7 @@ export const Modal: React.FC<ModalType> = ({
 				className={clsx(
 					styles["Overlay"],
 					styles[`Overlay--bg-${overlay}`],
-					styles[`Overlay--opacity-${solid}`],
+					styles[solid ? "Overlay--opacity-solid" : "Overlay--opacity-default"],
 					styles[`Overlay--zIndex-${open ? "opened" : "closed"}`]
 				)}
 			>
