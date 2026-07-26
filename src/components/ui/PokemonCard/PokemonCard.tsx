@@ -14,6 +14,7 @@ type PokemonCardType = {
 	captured?: number;
 	sprite?: string;
 	pokemonId?: number | string;
+	isShiny?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 export const PokemonCard: React.FC<PokemonCardType> = ({
@@ -22,6 +23,7 @@ export const PokemonCard: React.FC<PokemonCardType> = ({
 	captured,
 	sprite,
 	pokemonId,
+	isShiny,
 	children,
 }) => {
 	return (
@@ -64,6 +66,11 @@ export const PokemonCard: React.FC<PokemonCardType> = ({
 				/>
 			)}
 			<Text variant="outlined">{name}</Text>
+			{isShiny && (
+				<div className={clsx("pixelated-border", styles["Shiny-badge"])}>
+					<Text variant="darker">shiny</Text>
+				</div>
+			)}
 			{children}
 			{captured ? (
 				<div className={clsx(styles["Captured-quantity"])}>

@@ -244,3 +244,25 @@
   margin-right: 16px;
   margin-bottom: 16px;
 }
+
+/* Penanda encounter shiny di atas sprite. */
+.Shiny--wrapper {
+  text-align: center;
+}
+
+.Shiny--chip {
+  background-color: var(--base-color-yellow-300);
+  flex-grow: 0;
+}
+
+/* Chip kesulitan menumpuk di atas tombol Catch di dalam navigasi. */
+.Catch--cluster {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+}
+
+.Difficulty--chip {
+  align-self: center;
+  flex-grow: 0;
+}
