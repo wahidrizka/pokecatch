@@ -5,7 +5,9 @@ export type CatchPhase = "idle" | "throwing" | "caught" | "escaped" | "naming";
 
 const THROW_DURATION_MS = 2000;
 const RESULT_DURATION_MS = 1200;
-const CATCH_PROBABILITY = 0.5;
+
+// Dipakai bila peluang asli tidak tersedia (mis. fetch species gagal).
+const DEFAULT_CATCH_PROBABILITY = 0.5;
 
 /**
  * Urutan lempar pokeball: melempar → hasil ditampilkan sesaat → memberi nama
@@ -25,11 +27,13 @@ export const useCatchSequence = () => {
 			pending.current.push(setTimeout(resolve, duration));
 		});
 
-	const throwPokeball = async () => {
+	const throwPokeball = async (
+		probability: number = DEFAULT_CATCH_PROBABILITY
+	) => {
 		setPhase("throwing");
 		await wait(THROW_DURATION_MS);
 
-		const caught = Math.random() >= CATCH_PROBABILITY;
+		const caught = Math.random() < probability;
 		setPhase(caught ? "caught" : "escaped");
 		await wait(RESULT_DURATION_MS);
 

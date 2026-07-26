@@ -17,17 +17,21 @@ import {
 	useNavHeight,
 	usePokemonDetail,
 } from "@/hooks";
+import { getCatchProbability } from "@/utils";
 import styles from "./PokemonDetail.module.css";
 import { CatchingModal } from "./CatchingModal";
 import { CatchResultModal } from "./CatchResultModal";
 import { NicknameModal } from "./NicknameModal";
 
 export const PokemonDetail = ({ name }: { name: string }) => {
-	const { sprite, types, moves, stats, abilities, isLoading } =
+	const { sprite, isShiny, types, moves, stats, abilities, captureRate, isLoading } =
 		usePokemonDetail(name);
 	const { phase, throwPokeball } = useCatchSequence();
 	const { keep } = useMyPokemon();
 	const { navRef, navHeight } = useNavHeight();
+
+	const catchProbability =
+		captureRate !== null ? getCatchProbability(captureRate) : undefined;
 
 	useDocumentTitle(`PokeCatch - ${name.toUpperCase()}`);
 
@@ -49,7 +53,7 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 				name={name}
 				sprite={sprite}
 				onSave={(nickname) =>
-					keep({ name: name.toUpperCase(), nickname, sprite })
+					keep({ name: name.toUpperCase(), nickname, sprite, isShiny })
 				}
 			/>
 
@@ -169,7 +173,7 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 					<Button
 						as="button"
 						variant="dark"
-						onClick={throwPokeball}
+						onClick={() => throwPokeball(catchProbability)}
 						size="xlarge"
 						icon="/static/pokeball.png"
 					>
