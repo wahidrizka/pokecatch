@@ -40,3 +40,12 @@
   display: flex;
   padding-top: 24px;
 }
+/* Nilai-nilai berikut sebelumnya ditulis sebagai inline style di TSX. */
+.Headline {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.Card--link {
+  display: flex;
+}

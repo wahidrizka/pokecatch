@@ -230,3 +230,17 @@
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
+/* Nilai-nilai berikut sebelumnya ditulis sebagai inline style di TSX. */
+.Throwing--wrapper {
+  display: grid;
+  place-items: center;
+}
+
+.Nicknaming--prompt {
+  text-align: left;
+}
+
+.Move--chip {
+  margin-right: 16px;
+  margin-bottom: 16px;
+}
