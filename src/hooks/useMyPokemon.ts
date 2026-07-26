@@ -1,7 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "@/context";
-import { loadMyPokemonFromLocalStorage, persistMyPokemon } from "@/helpers";
+import {
+	loadMyPokemonFromLocalStorage,
+	mergeCollections,
+	persistMyPokemon,
+} from "@/helpers";
 import { MyPokemonType } from "@/types/pokemon";
 
 /**
@@ -41,5 +45,12 @@ export const useMyPokemon = () => {
 		return true;
 	};
 
-	return { pokemons, release, keep };
+	/** Impor gabung lewati-tabrakan; mengembalikan hitungan untuk dilaporkan. */
+	const importMany = (incoming: MyPokemonType[]) => {
+		const { merged, added, skipped } = mergeCollections(pokemons, incoming);
+		if (added > 0) commit(merged);
+		return { added, skipped };
+	};
+
+	return { pokemons, release, keep, importMany };
 };
