@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
+import fs from "fs";
 
 const shot = (page: Page, name: string) =>
 	page.screenshot({
@@ -304,4 +305,68 @@ test("shiny encounter is flagged and lands in the collection with a badge", asyn
 	await page.getByRole("link", { name: /see my pokemon/i }).click();
 	await expect(page.getByText("KILAU")).toBeVisible();
 	await expect(page.locator('[class*="Shiny-badge"]')).toBeVisible();
+});
+
+test("collection export downloads a restorable file and import merges", async ({ page }) => {
+	await seedCollection(page, [{ name: "PIKACHU", nickname: "SPARKY" }]);
+	await page.goto("/my-pokemon");
+	await expect(page.getByText("Total: 1")).toBeVisible();
+
+	const downloadPromise = page.waitForEvent("download");
+	await page.getByRole("button", { name: /export/i }).click();
+	const download = await downloadPromise;
+	expect(download.suggestedFilename()).toMatch(/^pokecatch-\d{4}-\d{2}-\d{2}\.json$/);
+
+	// Isi file = bentuk penyimpanan, jadi hasil ekspor selalu bisa diimpor balik.
+	const exported = JSON.parse(fs.readFileSync(await download.path(), "utf-8"));
+	expect(exported).toEqual([
+		expect.objectContaining({ name: "PIKACHU", nickname: "SPARKY" }),
+	]);
+
+	const payload = JSON.stringify([
+		{ name: "EEVEE", nickname: "FLUFFY", sprite: "/static/pokeball.png" },
+		{ name: "PIKACHU", nickname: "SPARKY" },
+	]);
+	await page.locator('input[type="file"]').setInputFiles({
+		name: "backup.json",
+		mimeType: "application/json",
+		buffer: Buffer.from(payload),
+	});
+
+	await expect(
+		page.getByText("1 imported, 1 skipped (nickname taken)")
+	).toBeVisible();
+	await expect(page.getByText("Total: 2")).toBeVisible();
+	await expect(page.getByText("FLUFFY")).toBeVisible();
+	await expect(page.getByText(/Pokédex: 2\/\d+/)).toBeVisible();
+});
+
+test("an invalid import file leaves the collection untouched", async ({ page }) => {
+	await seedCollection(page, [{ name: "PIKACHU", nickname: "SPARKY" }]);
+	await page.goto("/my-pokemon");
+	await expect(page.getByText("Total: 1")).toBeVisible();
+
+	await page.locator('input[type="file"]').setInputFiles({
+		name: "rusak.json",
+		mimeType: "application/json",
+		buffer: Buffer.from("bukan json {{{"),
+	});
+
+	await expect(page.getByText("Invalid collection file")).toBeVisible();
+	await expect(page.getByText("Total: 1")).toBeVisible();
+});
+
+test("collection cards open the species detail while release stays put", async ({ page }) => {
+	await seedCollection(page, [{ name: "PIKACHU", nickname: "SPARKY" }]);
+	await page.goto("/my-pokemon");
+
+	// Tombol lepas di dalam Link tidak boleh ikut bernavigasi.
+	await page.getByRole("button", { name: "Release SPARKY" }).click();
+	await expect(page.getByText(/are you sure/i)).toBeVisible();
+	expect(page.url()).toContain("/my-pokemon");
+	await page.getByRole("button", { name: /cancel/i }).click();
+
+	await page.locator('a[href="/pokemon/pikachu"]').click();
+	await page.waitForURL("**/pokemon/pikachu");
+	await expect(page.getByRole("heading", { name: "pikachu" })).toBeVisible();
 });
