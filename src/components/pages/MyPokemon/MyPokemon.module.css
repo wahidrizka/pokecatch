@@ -69,3 +69,36 @@
 .Prompt {
   text-align: left;
 }
+
+.Header--actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+}
+
+.Stats--row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-base);
+  margin-bottom: var(--spacing-base);
+}
+
+/* Menetralkan padding dan flex-grow bawaan .pixelated-border, seperti StatsBar. */
+.Progress--track {
+  flex-grow: 0;
+  padding: 0;
+  width: min(100%, 240px);
+  height: 18px;
+  background-color: var(--base-color-gray-300);
+}
+
+.Progress--fill {
+  height: 100%;
+  background-color: var(--base-color-yellow-400);
+}
+
+.Card--link {
+  display: flex;
+  flex-grow: 1;
+}
