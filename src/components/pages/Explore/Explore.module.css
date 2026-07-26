@@ -31,7 +31,18 @@
 
 .Footer {
   display: flex;
+  justify-content: center;
   padding-top: 24px;
+}
+
+/*
+ * .pixelated-border memberi flex-grow: 1, sehingga tombol memenuhi seluruh
+ * lebar container. Dibatasi agar sejajar dengan baris navigasi di bawahnya,
+ * dan tetap memenuhi lebar di layar yang lebih sempit dari 640px.
+ */
+.Footer > button {
+  flex-grow: 0;
+  width: min(100%, var(--screen-size-small));
 }
 /* Nilai-nilai berikut sebelumnya ditulis sebagai inline style di TSX. */
 .Headline {
