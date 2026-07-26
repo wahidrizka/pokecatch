@@ -70,6 +70,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  row-gap: var(--spacing-base);
   margin: var(--spacing-small) 0 var(--spacing-base);
 }
 
@@ -83,11 +84,4 @@
 
 .Type-filter--chip-dimmed {
   opacity: 0.45;
-}
-
-/* Di layar sempit 18 chip memakan hampir satu layar; teksnya dikecilkan. */
-@media (max-width: 639px) {
-  .Type-filter--chip p {
-    font-size: var(--text-size-base);
-  }
 }

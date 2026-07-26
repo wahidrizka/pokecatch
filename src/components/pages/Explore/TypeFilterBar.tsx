@@ -46,7 +46,7 @@ export const TypeFilterBar = ({ activeType, onToggle }: TypeFilterBarType) => (
 						styles["Type-filter--chip-dimmed"]
 				)}
 			>
-				<TypeCard type={type} />
+				<TypeCard type={type} size="base" />
 			</button>
 		))}
 	</div>
