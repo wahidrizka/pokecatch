@@ -1,5 +1,9 @@
-import { POKEMON_API } from "@/configs/api";
-import { AllPokemonResponseType, PokemonDetailType } from "@/types/pokemon";
+import { POKEMON_API, POKEMON_TYPE_API } from "@/configs/api";
+import {
+	AllPokemonResponseType,
+	PokemonByTypeResponseType,
+	PokemonDetailType,
+} from "@/types/pokemon";
 import axios from "axios";
 
 /**
@@ -18,6 +22,14 @@ export const getAllPokemon = async (limit = 50, offset = 0) => {
 
 export const getDetailPokemon = async (name: string) => {
 	const { data } = await axios.get<PokemonDetailType>(`${POKEMON_API}/${name}`);
+
+	return data;
+};
+
+export const getPokemonByType = async (type: string) => {
+	const { data } = await axios.get<PokemonByTypeResponseType>(
+		`${POKEMON_TYPE_API}/${type}`
+	);
 
 	return data;
 };

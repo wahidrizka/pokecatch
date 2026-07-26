@@ -31,6 +31,10 @@ export type AllPokemonResponseType = {
 	results: PokemonType[];
 };
 
+export type PokemonByTypeResponseType = {
+	pokemon: Array<{ pokemon: PokemonType; slot: number }>;
+};
+
 export type PokemonDetailType = {
 	name: string;
 	abilities: Array<{
