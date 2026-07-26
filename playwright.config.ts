@@ -11,6 +11,9 @@ export default defineConfig({
 	retries: process.env.CI ? 2 : 1,
 	timeout: 60_000,
 	expect: { timeout: 20_000 },
+	// Harness review visual dijalankan lewat playwright.review.config.ts, bukan di sini:
+	// ia menghasilkan artefak untuk diperiksa manusia, bukan menguji apa pun.
+	testIgnore: /review\.spec\.ts/,
 	reporter: [["list"]],
 	use: {
 		baseURL: E2E_URL,
