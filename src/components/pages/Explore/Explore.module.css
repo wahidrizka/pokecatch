@@ -53,3 +53,41 @@
 .Card--link {
   display: flex;
 }
+
+/* Kotak cari sejajar dengan tombol Load More dan baris navigasi (640px). */
+.Search--wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-base);
+}
+
+.Search--wrapper > div {
+  flex-grow: 0;
+  width: min(100%, var(--screen-size-small));
+}
+
+.Type-filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: var(--spacing-small) 0 var(--spacing-base);
+}
+
+/* Tombol polos pembungkus TypeCard: seluruh tampilan datang dari kartunya. */
+.Type-filter--chip {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.Type-filter--chip-dimmed {
+  opacity: 0.45;
+}
+
+/* Di layar sempit 18 chip memakan hampir satu layar; teksnya dikecilkan. */
+@media (max-width: 639px) {
+  .Type-filter--chip p {
+    font-size: var(--text-size-base);
+  }
+}
