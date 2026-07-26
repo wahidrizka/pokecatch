@@ -177,7 +177,9 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 				</div>
 			</div>
 
-			<Navbar ref={navRef} fadeHeight={224}>
+			{/* 288, bukan 224: cluster kini memuat chip kesulitan di atas tombol,
+			    dan gradien harus tetap menutupi seluruhnya agar tidak menimpa konten. */}
+			<Navbar ref={navRef} fadeHeight={288}>
 				{!isLoading && (
 					<div className={clsx(styles["Catch--cluster"])}>
 						{captureRate !== null && (
