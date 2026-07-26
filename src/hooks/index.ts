@@ -2,6 +2,7 @@ export * from "./useCatchSequence";
 export * from "./useDocumentTitle";
 export * from "./useMyPokemon";
 export * from "./useNavHeight";
+export * from "./usePokedexProgress";
 export * from "./usePokemonDetail";
 export * from "./usePokemonList";
 export * from "./usePokemonSearch";
