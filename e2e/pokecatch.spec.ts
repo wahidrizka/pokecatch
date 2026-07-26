@@ -110,7 +110,10 @@ test("stat bar never overflows its track, even at base stat 255", async ({ page 
 
 test("catching a pokemon persists it and syncs the captured badge", async ({ page }) => {
 	await page.addInitScript(() => {
-		Math.random = () => 0.99; // catchPokemon() menangkap jika Math.random() >= 0.5
+		// Tangkapan sukses jika roll < peluang. 0.45 lolos baik pada peluang asli
+		// pikachu (±70%) maupun default 0.5 bila species belum termuat saat klik,
+		// dan tetap di atas ambang shiny (1/64) sehingga alurnya non-shiny.
+		Math.random = () => 0.45;
 	});
 
 	await page.goto("/pokemon/pikachu");
@@ -249,4 +252,56 @@ test("type filter intersects with search and toggles off", async ({ page }) => {
 
 	await page.getByLabel("search pokémon").fill("zzzz");
 	await expect(page.getByText("No Pokémon found")).toBeVisible();
+});
+
+test("difficulty chip reflects real catch odds and misses break free", async ({ page }) => {
+	await page.addInitScript(() => {
+		// 0.999 melewati ambang peluang mana pun (maks 90%) sekaligus bukan shiny.
+		Math.random = () => 0.999;
+	});
+
+	await page.goto("/pokemon/pikachu");
+	await expect
+		.poll(() =>
+			page
+				.locator('img[alt="pikachu"]')
+				.first()
+				.evaluate((img: HTMLImageElement) => img.naturalWidth)
+		)
+		.toBeGreaterThan(0);
+
+	// Pikachu ber-capture_rate 190 -> label "easy" (bukan "very easy").
+	await expect(page.getByText("easy", { exact: true })).toBeVisible();
+
+	await page.getByRole("button", { name: /catch/i }).click();
+	await expect(page.getByText(/catching/i)).toBeVisible();
+	await expect(page.getByText(/broke free/i)).toBeVisible();
+});
+
+test("shiny encounter is flagged and lands in the collection with a badge", async ({ page }) => {
+	await page.addInitScript(() => {
+		// 0 selalu lolos ambang shiny (1/64) dan ambang tangkapan mana pun.
+		Math.random = () => 0;
+	});
+
+	await page.goto("/pokemon/pikachu");
+	await expect(page.locator('[class*="Shiny--chip"]')).toBeVisible();
+	await expect
+		.poll(() =>
+			page
+				.locator('img[alt="pikachu"]')
+				.first()
+				.evaluate((img: HTMLImageElement) => img.naturalWidth)
+		)
+		.toBeGreaterThan(0);
+
+	await page.getByRole("button", { name: /catch/i }).click();
+	await expect(page.getByText(/was caught/i)).toBeVisible();
+	await page.getByPlaceholder("enter a nickname").fill("KILAU");
+	await page.getByRole("button", { name: /save/i }).click();
+	await expect(page.getByText(/is now in your pokemon list/i)).toBeVisible();
+
+	await page.getByRole("link", { name: /see my pokemon/i }).click();
+	await expect(page.getByText("KILAU")).toBeVisible();
+	await expect(page.locator('[class*="Shiny-badge"]')).toBeVisible();
 });
