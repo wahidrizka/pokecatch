@@ -6,14 +6,43 @@ const shot = (page: Page, name: string) =>
 		fullPage: true,
 	});
 
-/** Gulir sampai bawah lalu kembali ke atas agar LazyLoadImage sempat memuat sebelum di-screenshot. */
+/**
+ * Gulir bertahap satu layar sekaligus agar LazyLoadImage sempat ter-trigger,
+ * lalu kembali ke atas. Menggulir langsung ke dasar bisa melewati gambar di tengah.
+ *
+ * Penantian gambar sengaja dibatasi dan boleh menyerah: sprite datang dari CDN
+ * pihak ketiga dan satu-dua di antaranya kadang lambat. Kerusakan gambar diuji
+ * terpisah lewat brokenImages(), yang tidak bergantung pada kecepatan jaringan.
+ */
 const settleLazyImages = async (page: Page) => {
-	await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-	await page.waitForFunction(() =>
-		Array.from(document.images).every((img) => img.complete)
-	);
-	await page.evaluate(() => window.scrollTo(0, 0));
+	await page.evaluate(async () => {
+		for (let y = 0; y <= document.body.scrollHeight; y += window.innerHeight) {
+			window.scrollTo(0, y);
+			await new Promise((resolve) => setTimeout(resolve, 150));
+		}
+		window.scrollTo(0, 0);
+	});
+	await page
+		.waitForFunction(
+			() => Array.from(document.images).every((img) => img.complete),
+			undefined,
+			{ timeout: 15_000 }
+		)
+		.catch(() => undefined);
 };
+
+/** Gambar yang sudah selesai dimuat tapi tidak punya dimensi = benar-benar rusak. */
+const brokenImages = (page: Page) =>
+	page
+		.locator("img")
+		.evaluateAll((imgs) =>
+			imgs
+				.filter((img) => {
+					const image = img as HTMLImageElement;
+					return image.complete && !image.naturalWidth;
+				})
+				.map((img) => (img as HTMLImageElement).src || "(src kosong)")
+		);
 
 const seedCollection = (page: Page, entries: { name: string; nickname: string }[]) =>
 	page.addInitScript((seed) => {
@@ -157,3 +186,32 @@ test("a failed detail request surfaces a toast", async ({ page }) => {
 
 	await shot(page, "07-error-toast");
 });
+
+for (const route of ["/", "/pokemons", "/pokemon/pikachu", "/my-pokemon"]) {
+	test(`layout fits the viewport and serves every image: ${route}`, async ({ page }) => {
+		const rejected: string[] = [];
+		page.on("requestfailed", (request) => {
+			if (request.resourceType() === "image") {
+				rejected.push(`${request.failure()?.errorText} ${request.url()}`);
+			}
+		});
+		page.on("response", (response) => {
+			if (response.request().resourceType() === "image" && response.status() >= 400) {
+				rejected.push(`HTTP ${response.status()} ${response.url()}`);
+			}
+		});
+
+		await seedCollection(page, [{ name: "PIKACHU", nickname: "SPARKY" }]);
+		await page.goto(route);
+		await settleLazyImages(page);
+
+		const { scrollWidth, innerWidth } = await page.evaluate(() => ({
+			scrollWidth: document.documentElement.scrollWidth,
+			innerWidth: window.innerWidth,
+		}));
+		expect(scrollWidth, `${route} meluber horizontal`).toBeLessThanOrEqual(innerWidth + 1);
+
+		expect(await brokenImages(page), `${route} punya gambar rusak`).toEqual([]);
+		expect(rejected, `${route} punya permintaan gambar yang gagal`).toEqual([]);
+	});
+}
