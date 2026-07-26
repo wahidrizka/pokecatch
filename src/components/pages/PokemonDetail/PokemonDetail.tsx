@@ -310,11 +310,13 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 			</Modal>
 
 			<div className={clsx(styles["Page"])} style={{ marginBottom: navHeight }}>
-				<LazyLoadImage
-					src="/static/pokeball-transparent.png"
-					width={512}
-					height={512}
-				/>
+				<div className={clsx(styles["Watermark"])}>
+					<LazyLoadImage
+						src="/static/pokeball-transparent.png"
+						width={512}
+						height={512}
+					/>
+				</div>
 
 				<div className={clsx(styles["Pokemon--name"])}>
 					<div />
