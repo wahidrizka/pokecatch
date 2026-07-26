@@ -62,19 +62,25 @@
   gap: 16px;
 }
 
-.Page > img {
+/*
+ * Posisi dipasang pada pembungkus, bukan pada <img>. LazyLoadImage merender
+ * <span> placeholder selebar 512px sebelum gambar termuat; kalau aturan ini
+ * menyasar <img> saja, placeholder itu tetap dalam alur dan membuat halaman
+ * meluber horizontal di layar sempit.
+ */
+.Watermark {
   position: fixed;
   right: -64vw;
   top: 0;
   z-index: 1;
 }
 @media (min-width: 640px) {
-  .Page > img {
+  .Watermark {
     right: -32vw;
   }
 }
 @media (min-width: 1024px) {
-  .Page > img {
+  .Watermark {
     right: -16vw;
   }
 }
