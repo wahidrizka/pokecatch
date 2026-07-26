@@ -17,6 +17,7 @@ export const Text: React.FC<ITextProps> = ({
 	variant = "default",
 	size = "base",
 	as = "p",
+	className,
 	...props
 }) => {
 	const PixelatedText = as;
@@ -27,7 +28,8 @@ export const Text: React.FC<ITextProps> = ({
 				styles[`Size--${size}`],
 				variant === "outlined"
 					? styles[`Shadow--bold-${size}`]
-					: styles[`Shadow--light-${size}`]
+					: styles[`Shadow--light-${size}`],
+				className
 			)}
 			{...props}
 		>
