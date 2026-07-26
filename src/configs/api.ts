@@ -7,3 +7,7 @@ export const POKEMON_IMAGE = process.env.NEXT_PUBLIC_POKEMON_IMAGE_URL || "";
  * membuat aplikasi gagal senyap, jangan menambah peluang kedua.
  */
 export const POKEMON_TYPE_API = POKEMON_API.replace(/\/pokemon$/, "/type");
+export const POKEMON_SPECIES_API = POKEMON_API.replace(
+	/\/pokemon$/,
+	"/pokemon-species"
+);

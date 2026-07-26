@@ -2,6 +2,8 @@ export type MyPokemonType = {
 	name: string;
 	nickname: string;
 	sprite?: string;
+	// Opsional agar koleksi lama tetap terbaca tanpa migrasi: absen = bukan shiny.
+	isShiny?: boolean;
 };
 
 export type PokemonType = {
@@ -35,6 +37,10 @@ export type PokemonByTypeResponseType = {
 	pokemon: Array<{ pokemon: PokemonType; slot: number }>;
 };
 
+export type PokemonSpeciesResponseType = {
+	capture_rate: number;
+};
+
 export type PokemonDetailType = {
 	name: string;
 	abilities: Array<{
@@ -44,10 +50,16 @@ export type PokemonDetailType = {
 	}>;
 	moves: Array<{ move: { name: string; url: string } }>;
 	types: Array<{ slot: number; type: { name: string; url: string } }>;
+	// Nama spesies dasar — bentuk khusus (mega/gmax) menunjuk ke spesies induknya.
+	species: { name: string; url: string };
 	sprites: {
 		front_default: string | null;
+		front_shiny: string | null;
 		other?: {
-			showdown?: { front_default: string | null };
+			showdown?: {
+				front_default: string | null;
+				front_shiny: string | null;
+			};
 		};
 	};
 	stats: Array<{
