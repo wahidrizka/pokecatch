@@ -71,6 +71,7 @@ export const MyPokemon: React.FC = () => {
 									name={pokemon.name}
 									nickname={pokemon.nickname}
 									sprite={pokemon.sprite}
+									isShiny={pokemon.isShiny}
 								>
 									<DeleteButton
 										aria-label={`Release ${pokemon.nickname}`}

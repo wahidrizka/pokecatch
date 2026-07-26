@@ -17,7 +17,7 @@ import {
 	useNavHeight,
 	usePokemonDetail,
 } from "@/hooks";
-import { getCatchProbability } from "@/utils";
+import { getCatchDifficulty, getCatchProbability } from "@/utils";
 import styles from "./PokemonDetail.module.css";
 import { CatchingModal } from "./CatchingModal";
 import { CatchResultModal } from "./CatchResultModal";
@@ -97,6 +97,15 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 					</div>
 
 					<div className={clsx(styles["Pokemon-sprite"])}>
+						{isShiny && (
+							<div className={clsx(styles["Shiny--wrapper"])}>
+								<div
+									className={clsx("pixelated-border", styles["Shiny--chip"])}
+								>
+									<Text variant="darker">shiny</Text>
+								</div>
+							</div>
+						)}
 						{!isLoading ? (
 							<LazyLoadImage
 								className={clsx(styles["Pokemon--sprite"])}
@@ -170,15 +179,27 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 
 			<Navbar ref={navRef} fadeHeight={224}>
 				{!isLoading && (
-					<Button
-						as="button"
-						variant="dark"
-						onClick={() => throwPokeball(catchProbability)}
-						size="xlarge"
-						icon="/static/pokeball.png"
-					>
-						Catch
-					</Button>
+					<div className={clsx(styles["Catch--cluster"])}>
+						{captureRate !== null && (
+							<div
+								className={clsx(
+									"pixelated-border",
+									styles["Difficulty--chip"]
+								)}
+							>
+								<Text>{getCatchDifficulty(captureRate)}</Text>
+							</div>
+						)}
+						<Button
+							as="button"
+							variant="dark"
+							onClick={() => throwPokeball(catchProbability)}
+							size="xlarge"
+							icon="/static/pokeball.png"
+						>
+							Catch
+						</Button>
+					</div>
 				)}
 			</Navbar>
 		</>

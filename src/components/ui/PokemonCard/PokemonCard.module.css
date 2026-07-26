@@ -34,3 +34,12 @@
 .Card img {
   margin: 0 auto;
 }
+
+/* Lencana shiny di pojok kiri atas; pojok kanan atas milik badge tangkapan. */
+.Card .Shiny-badge {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  background-color: var(--base-color-yellow-300);
+  flex-grow: 0;
+}
