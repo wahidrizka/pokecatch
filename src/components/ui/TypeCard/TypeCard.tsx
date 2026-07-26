@@ -5,9 +5,10 @@ import styles from "./TypeCard.module.css";
 
 type TypeCardType = {
 	type: string;
+	size?: "base" | "large";
 };
 
-export const TypeCard: React.FC<TypeCardType> = ({ type }) => {
+export const TypeCard: React.FC<TypeCardType> = ({ type, size = "large" }) => {
 	return (
 		<div
 			className={clsx(
@@ -16,7 +17,7 @@ export const TypeCard: React.FC<TypeCardType> = ({ type }) => {
 				styles[`Type--card-color--${type}`]
 			)}
 		>
-			<Text variant="outlined" size="large">
+			<Text variant="outlined" size={size}>
 				{type}
 			</Text>
 		</div>
