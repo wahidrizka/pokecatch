@@ -18,61 +18,37 @@ export type PokemonSummaryType = {
 
 /**
  * Pokemon API Response
+ *
+ * Hanya bidang yang benar-benar dibaca aplikasi yang dideklarasikan. PokeAPI
+ * mengembalikan jauh lebih banyak; menambah bidang di sini berarti ada kode
+ * baru yang memakainya.
  */
 
 export type AllPokemonResponseType = {
 	count: number;
-	next?: string;
-	previous?: string;
+	next: string | null;
+	previous: string | null;
 	results: PokemonType[];
 };
 
 export type PokemonDetailType = {
 	name: string;
 	abilities: Array<{
-		ability: {
-			name: string;
-			url: string;
-		};
+		ability: { name: string; url: string };
 		is_hidden: boolean;
 		slot: number;
 	}>;
-	moves: {
-		move?: {
-			name?: string;
-			[other: string]: unknown;
-		};
-		[other: string]: unknown;
-	}[];
-	types: {
-		type?: {
-			name?: string;
-			[other: string]: unknown;
-		};
-		[other: string]: unknown;
-	}[];
+	moves: Array<{ move: { name: string; url: string } }>;
+	types: Array<{ slot: number; type: { name: string; url: string } }>;
 	sprites: {
-		front_default: string;
-		versions?: {
-			"generation-v"?: {
-				"black-white"?: {
-					animated?: {
-						front_default: string;
-					};
-					[other: string]: unknown;
-				};
-			};
-			[other: string]: unknown;
+		front_default: string | null;
+		other?: {
+			showdown?: { front_default: string | null };
 		};
-		[other: string]: unknown;
 	};
 	stats: Array<{
 		base_stat: number;
-		effort?: number;
-		stat: {
-			name?: string;
-			url: string;
-		};
+		effort: number;
+		stat: { name: string; url: string };
 	}>;
-	[other: string]: unknown;
 };
