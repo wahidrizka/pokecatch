@@ -215,3 +215,38 @@ for (const route of ["/", "/pokemons", "/pokemon/pikachu", "/my-pokemon"]) {
 		expect(rejected, `${route} punya permintaan gambar yang gagal`).toEqual([]);
 	});
 }
+
+test("searching reaches beyond the loaded page and clearing restores browse", async ({ page }) => {
+	await page.goto("/pokemons");
+	await expect(page.locator('a[href="/pokemon/bulbasaur"]')).toBeVisible();
+
+	// Mewtwo ada di luar 50 pertama — hanya ditemukan bila cakupannya seluruh daftar.
+	await page.getByLabel("search pokémon").fill("mewtwo");
+	await expect(page.locator('a[href="/pokemon/mewtwo"]')).toBeVisible();
+	await expect(page.locator('a[href="/pokemon/bulbasaur"]')).toBeHidden();
+
+	await page.getByLabel("search pokémon").fill("");
+	await expect(page.locator('a[href="/pokemon/bulbasaur"]')).toBeVisible();
+	await expect(page.locator('a[href^="/pokemon/"]')).toHaveCount(50);
+	await expect(page.getByRole("button", { name: /load more/i })).toBeVisible();
+});
+
+test("type filter intersects with search and toggles off", async ({ page }) => {
+	await page.goto("/pokemons");
+	await expect(page.locator('a[href="/pokemon/bulbasaur"]')).toBeVisible();
+
+	// "char" sendirian memuat charjabug (tipe bug); irisan dengan FIRE menyaringnya keluar.
+	await page.getByLabel("search pokémon").fill("char");
+	await expect(page.locator('a[href="/pokemon/charjabug"]')).toBeVisible();
+
+	await page.getByRole("button", { name: "filter by fire" }).click();
+	await expect(page.locator('a[href="/pokemon/charmander"]')).toBeVisible();
+	await expect(page.locator('a[href="/pokemon/charjabug"]')).toBeHidden();
+
+	// Klik chip yang sama melepas filter: charjabug kembali.
+	await page.getByRole("button", { name: "filter by fire" }).click();
+	await expect(page.locator('a[href="/pokemon/charjabug"]')).toBeVisible();
+
+	await page.getByLabel("search pokémon").fill("zzzz");
+	await expect(page.getByText("No Pokémon found")).toBeVisible();
+});
