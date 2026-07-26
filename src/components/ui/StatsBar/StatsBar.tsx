@@ -19,7 +19,10 @@ export const StatsBar: React.FC<StatsBarType> = ({
 	const filledRatio = Math.min(Math.max(progress, 0) / MAX_BASE_STAT, 1);
 
 	return (
-		<div className={clsx(styles["Track"])} style={{ height }}>
+		<div
+			className={clsx("pixelated-border", styles["Track"])}
+			style={{ height }}
+		>
 			<div
 				className={clsx(styles["Fill"])}
 				style={{

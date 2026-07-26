@@ -1,7 +1,12 @@
 .Track {
+  /* Menetralkan padding, warna, dan flex-grow bawaan .pixelated-border:
+     track harus rata penuh dan lebarnya tetap 50%, bukan ikut memanjang. */
+  padding: 0;
+  flex-grow: 0;
   width: 50%;
-  margin-left: var(--spacing-lg);
   background-color: var(--base-color-gray-300);
+  /* 20px tidak punya token spacing yang setara; nilai ini menjaga jarak aslinya. */
+  margin-left: 20px;
 }
 
 .Fill {
