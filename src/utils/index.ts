@@ -5,6 +5,14 @@ export const getPokemonId = (url: string) => {
 	return "";
 };
 
+/** Teks Pokedex PokeAPI mengandung \n dan \f dari tata letak game aslinya. */
+export const normalizeFlavorText = (text: string) => text.split(/\s+/).join(" ");
+
+/** Diam saja bila gagal: berkas hilang atau peramban menolak memutar. */
+export const playCry = (src: string) => {
+	void new Audio(src).play().catch(() => undefined);
+};
+
 const MAX_CAPTURE_RATE = 255;
 
 /*

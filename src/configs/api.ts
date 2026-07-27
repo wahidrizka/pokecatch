@@ -11,3 +11,7 @@ export const POKEMON_SPECIES_API = POKEMON_API.replace(
 	/\/pokemon$/,
 	"/pokemon-species"
 );
+export const POKEMON_EVOLUTION_API = POKEMON_API.replace(
+	/\/pokemon$/,
+	"/evolution-chain"
+);

@@ -39,6 +39,22 @@ export type PokemonByTypeResponseType = {
 
 export type PokemonSpeciesResponseType = {
 	capture_rate: number;
+	evolution_chain: { url: string } | null;
+	flavor_text_entries: Array<{
+		flavor_text: string;
+		language: { name: string };
+	}>;
+	genera: Array<{ genus: string; language: { name: string } }>;
+};
+
+/** Simpul rekursif; satu spesies bisa bercabang ke banyak evolusi (Eevee: 8). */
+export type EvolutionChainNodeType = {
+	species: { name: string; url: string };
+	evolves_to: EvolutionChainNodeType[];
+};
+
+export type EvolutionChainResponseType = {
+	chain: EvolutionChainNodeType;
 };
 
 export type PokemonDetailType = {
@@ -52,6 +68,7 @@ export type PokemonDetailType = {
 	types: Array<{ slot: number; type: { name: string; url: string } }>;
 	// Nama spesies dasar — bentuk khusus (mega/gmax) menunjuk ke spesies induknya.
 	species: { name: string; url: string };
+	cries?: { latest: string | null };
 	sprites: {
 		front_default: string | null;
 		front_shiny: string | null;
