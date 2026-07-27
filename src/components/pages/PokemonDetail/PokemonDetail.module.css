@@ -266,3 +266,40 @@
   align-self: center;
   flex-grow: 0;
 }
+
+/* Tombol suara di bawah sprite. */
+.Cry--button {
+  background-color: var(--base-color-sky-200);
+  flex-grow: 0;
+  cursor: pointer;
+}
+
+/* Kartu teks Pokedex. */
+.Pokedex--entry {
+  display: block;
+  text-align: left;
+  max-width: 1340px;
+  margin: 0 auto var(--spacing-base);
+  flex-grow: 0;
+}
+
+/* Rantai evolusi: cabang membungkus ke baris berikutnya. */
+.Evolution--row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-small);
+  margin-bottom: var(--spacing-lg);
+}
+
+.Evolution--stage {
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Evolution--stage-current {
+  background-color: var(--base-color-yellow-200);
+}
