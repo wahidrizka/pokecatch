@@ -370,3 +370,44 @@ test("collection cards open the species detail while release stays put", async (
 	await page.waitForURL("**/pokemon/pikachu");
 	await expect(page.getByRole("heading", { name: "pikachu" })).toBeVisible();
 });
+
+test("pokedex entry and a linear evolution chain render", async ({ page }) => {
+	await page.goto("/pokemon/charmander");
+
+	await expect(page.getByText("Lizard Pokémon")).toBeVisible();
+	// Teks mentah PokeAPI mengandung \n dari tata letak game; paragrafnya
+	// harus sudah dinormalisasi jadi satu baris utuh.
+	const flavor = page.locator('[class*="Pokedex--entry"] p');
+	await expect(flavor).toBeVisible();
+	expect(await flavor.innerText()).not.toContain("\n");
+
+	// exact wajib: genus sebagian Pokemon berbunyi "Evolution Pokémon" dan
+	// juga sebuah heading, sehingga pencocokan parsial jadi ambigu.
+	await expect(
+		page.getByRole("heading", { name: "Evolution", exact: true })
+	).toBeVisible();
+	await expect(page.locator('[class*="Evolution--stage"]')).toHaveCount(3);
+	// Spesies yang sedang dibuka disorot, tepat satu.
+	await expect(page.locator('[class*="Evolution--stage-current"]')).toHaveCount(1);
+
+	await expect(
+		page.getByRole("button", { name: /play charmander cry/i })
+	).toBeVisible();
+
+	await page.locator('a[href="/pokemon/charizard"]').click();
+	await page.waitForURL("**/pokemon/charizard");
+	await expect(page.getByRole("heading", { name: "charizard" })).toBeVisible();
+});
+
+test("a branching evolution chain lists every branch side by side", async ({ page }) => {
+	await page.goto("/pokemon/eevee");
+
+	await expect(
+		page.getByRole("heading", { name: "Evolution", exact: true })
+	).toBeVisible();
+	// Eevee bercabang delapan: satu tahap dasar + delapan evolusi.
+	await expect(page.locator('[class*="Evolution--stage"]')).toHaveCount(9);
+	// Panah hanya sekali — cabang sejajar berdampingan tanpa panah berulang.
+	await expect(page.getByText("→", { exact: true })).toHaveCount(1);
+	await expect(page.locator('a[href="/pokemon/sylveon"]')).toBeVisible();
+});

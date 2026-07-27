@@ -73,6 +73,11 @@
   right: -64vw;
   top: 0;
   z-index: 1;
+  /*
+   * Murni hiasan. Tanpa ini gambar 512px-nya mencegat klik pada tautan di
+   * bawahnya — terbukti memblokir rantai evolusi di lebar mobile.
+   */
+  pointer-events: none;
 }
 @media (min-width: 640px) {
   .Watermark {
