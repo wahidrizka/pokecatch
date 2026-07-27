@@ -1,5 +1,6 @@
 export * from "./useCatchSequence";
 export * from "./useDocumentTitle";
+export * from "./useEvolutionChain";
 export * from "./useMyPokemon";
 export * from "./useNavHeight";
 export * from "./usePokedexProgress";
