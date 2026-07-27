@@ -13,19 +13,34 @@ import {
 import {
 	useCatchSequence,
 	useDocumentTitle,
+	useEvolutionChain,
 	useMyPokemon,
 	useNavHeight,
 	usePokemonDetail,
 } from "@/hooks";
-import { getCatchDifficulty, getCatchProbability } from "@/utils";
+import { getCatchDifficulty, getCatchProbability, playCry } from "@/utils";
+import { EvolutionChain } from "./EvolutionChain";
 import styles from "./PokemonDetail.module.css";
 import { CatchingModal } from "./CatchingModal";
 import { CatchResultModal } from "./CatchResultModal";
 import { NicknameModal } from "./NicknameModal";
 
 export const PokemonDetail = ({ name }: { name: string }) => {
-	const { sprite, isShiny, types, moves, stats, abilities, captureRate, isLoading } =
-		usePokemonDetail(name);
+	const {
+		sprite,
+		isShiny,
+		cry,
+		types,
+		moves,
+		stats,
+		abilities,
+		captureRate,
+		flavorText,
+		genus,
+		evolutionChainUrl,
+		isLoading,
+	} = usePokemonDetail(name);
+	const { stages } = useEvolutionChain(evolutionChainUrl);
 	const { phase, throwPokeball } = useCatchSequence();
 	const { keep } = useMyPokemon();
 	const { navRef, navHeight } = useNavHeight();
@@ -47,6 +62,7 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 				caught={phase === "caught"}
 				name={name}
 				sprite={sprite}
+				cry={cry}
 			/>
 			<NicknameModal
 				open={phase === "naming"}
@@ -121,10 +137,35 @@ export const PokemonDetail = ({ name }: { name: string }) => {
 								<Loading />
 							</div>
 						)}
+						{cry && (
+							<button
+								type="button"
+								aria-label={`play ${name} cry`}
+								onClick={() => playCry(cry)}
+								className={clsx("pixelated-border", styles["Cry--button"])}
+							>
+								<Text>♪ cry</Text>
+							</button>
+						)}
 					</div>
 				</div>
 
+				{(genus || flavorText) && (
+					<div className={clsx("pixelated-border", styles["Pokedex--entry"])}>
+						{genus && (
+							<Text as="h4" variant="darker">
+								{genus}
+							</Text>
+						)}
+						{flavorText && <Text variant="darker">{flavorText}</Text>}
+					</div>
+				)}
+
 				<div className={clsx(styles["Pokemon--content"])}>
+					{stages.length > 0 && (
+						<EvolutionChain stages={stages} currentName={name} />
+					)}
+
 					<div className={clsx(styles["Abilities--wrapper"])}>
 						<div>
 							<Text as="h3" variant="outlined">
