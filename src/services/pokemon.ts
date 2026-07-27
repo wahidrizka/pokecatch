@@ -1,10 +1,12 @@
 import {
 	POKEMON_API,
+	POKEMON_EVOLUTION_API,
 	POKEMON_SPECIES_API,
 	POKEMON_TYPE_API,
 } from "@/configs/api";
 import {
 	AllPokemonResponseType,
+	EvolutionChainResponseType,
 	PokemonByTypeResponseType,
 	PokemonDetailType,
 	PokemonSpeciesResponseType,
@@ -34,6 +36,14 @@ export const getDetailPokemon = async (name: string) => {
 export const getPokemonSpecies = async (species: string) => {
 	const { data } = await axios.get<PokemonSpeciesResponseType>(
 		`${POKEMON_SPECIES_API}/${species}`
+	);
+
+	return data;
+};
+
+export const getEvolutionChain = async (chainId: string) => {
+	const { data } = await axios.get<EvolutionChainResponseType>(
+		`${POKEMON_EVOLUTION_API}/${chainId}`
 	);
 
 	return data;
