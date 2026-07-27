@@ -267,10 +267,17 @@
   flex-grow: 0;
 }
 
-/* Tombol suara di bawah sprite. */
+/*
+ * Tombol suara berdampingan dengan sprite. Induknya flex row dengan
+ * align-items bawaan stretch, jadi tanpa align-self tombolnya teregang
+ * setinggi sprite dan teksnya terjepit jadi satu kolom.
+ */
 .Cry--button {
   background-color: var(--base-color-sky-200);
+  align-self: center;
   flex-grow: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
   cursor: pointer;
 }
 
