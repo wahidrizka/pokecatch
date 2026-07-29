@@ -58,6 +58,7 @@ export type EvolutionChainResponseType = {
 };
 
 export type PokemonDetailType = {
+	id: number;
 	name: string;
 	abilities: Array<{
 		ability: { name: string; url: string };

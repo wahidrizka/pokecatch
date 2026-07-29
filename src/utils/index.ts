@@ -27,6 +27,17 @@ export const getEnglishFlavorText = (species: PokemonSpeciesResponseType) => {
 export const getEnglishGenus = (species: PokemonSpeciesResponseType) =>
 	species.genera.find((entry) => entry.language.name === "en")?.genus ?? "";
 
+/**
+ * "deoxys-attack" -> "Deoxys Attack". Untuk judul dan deskripsi halaman, yang
+ * dibaca manusia dan mesin pencari — bukan untuk UI, yang memakai huruf besar
+ * semua lewat text-transform.
+ */
+export const toDisplayName = (name: string) =>
+	name
+		.split("-")
+		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+		.join(" ");
+
 /** Diam saja bila gagal: berkas hilang atau peramban menolak memutar. */
 export const playCry = (src: string) => {
 	void new Audio(src).play().catch(() => undefined);
