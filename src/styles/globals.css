@@ -1,4 +1,3 @@
-@import url('fonts.css');
 @import url('screen.css');
 @import url('spacing.css');
 @import url('colors.css');
@@ -6,7 +5,7 @@
 @import url('shadow.css');
 
 * {
-  font-family: "VT323", monospace;
+  font-family: var(--font-vt323), monospace;
   box-sizing: border-box;
   margin: 0;
   padding: 0;

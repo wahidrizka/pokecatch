@@ -5,8 +5,9 @@ const isDevelopment = process.env.NODE_ENV === "development";
 /*
  * Daftar origin diturunkan dari pengamatan lalu lintas nyata keempat rute,
  * bukan dugaan: yang benar-benar dimuat halaman hanyalah dirinya sendiri,
- * Google Fonts (stylesheet dan font), PokeAPI (xhr), serta repo PokeAPI di
- * raw.githubusercontent.com — yang memasok gambar sekaligus suara Pokemon.
+ * PokeAPI (xhr), serta repo PokeAPI di raw.githubusercontent.com — yang
+ * memasok gambar sekaligus suara Pokemon. Font ikut di-host sendiri, jadi
+ * tidak ada satu pun origin pihak ketiga yang boleh memuat kode atau gaya.
  *
  * 'unsafe-inline' pada script-src tidak terhindarkan tanpa nonce, dan nonce
  * menuntut middleware yang membuat setiap rute dirender dinamis. Untuk aplikasi
@@ -16,8 +17,8 @@ const isDevelopment = process.env.NODE_ENV === "development";
 const contentSecurityPolicy = [
 	"default-src 'self'",
 	`script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""}`,
-	"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-	"font-src 'self' https://fonts.gstatic.com",
+	"style-src 'self' 'unsafe-inline'",
+	"font-src 'self'",
 	// data: dipakai border-image SVG milik .pixelated-border
 	"img-src 'self' data: https://raw.githubusercontent.com",
 	"media-src 'self' https://raw.githubusercontent.com",
