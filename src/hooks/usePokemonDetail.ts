@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getDetailPokemon, getPokemonSpecies } from "@/services/pokemon";
 import { PokemonDetailType } from "@/types/pokemon";
-import { normalizeFlavorText } from "@/utils";
+import { getEnglishFlavorText, getEnglishGenus } from "@/utils";
 
 // Setiap kunjungan halaman me-roll shiny sekali — dasar loop "berburu shiny".
 const SHINY_ODDS = 1 / 64;
@@ -83,20 +83,10 @@ export const usePokemonDetail = (name: string) => {
 					const data = await getPokemonSpecies(pokemon.species.name);
 					if (!subscribed) return;
 
-					// Entri terakhir = teks dari game paling baru.
-					const english = data.flavor_text_entries.filter(
-						(entry) => entry.language.name === "en"
-					);
-					const genus = data.genera.find(
-						(entry) => entry.language.name === "en"
-					);
-
 					setSpecies({
 						captureRate: data.capture_rate,
-						flavorText: english.length
-							? normalizeFlavorText(english[english.length - 1].flavor_text)
-							: "",
-						genus: genus?.genus ?? "",
+						flavorText: getEnglishFlavorText(data),
+						genus: getEnglishGenus(data),
 						evolutionChainUrl: data.evolution_chain?.url ?? null,
 					});
 				} catch {
