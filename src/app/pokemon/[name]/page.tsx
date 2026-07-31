@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import { notFound } from "next/navigation";
 import { PokemonDetail } from "@/components";
-import { POKEMON_ARTWORK_IMAGE } from "@/configs/api";
-import { SITE_DESCRIPTION } from "@/configs/site";
+import { SITE_DESCRIPTION, SITE_SHARE_IMAGE } from "@/configs/site";
 import {
 	getDetailPokemon,
 	getPokemonSpecies,
@@ -24,6 +23,13 @@ const truncate = (text: string) =>
 		: `${text.slice(0, MAX_DESCRIPTION_LENGTH - 1).trimEnd()}…`;
 
 /*
+ * Satu-satunya tempat di luar hook yang memanggil service langsung, dan itu
+ * disengaja. Aturan rumah adalah service -> hook -> komponen, tapi
+ * generateMetadata berjalan di server sementara usePokemonDetail adalah hook
+ * client, jadi tidak ada hook yang bisa dipakai ulang di sini. Pengecualiannya
+ * ditahan sesempit mungkin: pengetahuan soal axios tetap berhenti di lapisan
+ * service lewat isNotFoundError, dan galat selain 404 tetap dilempar.
+ *
  * cache() menyatukan permintaan generateMetadata dan komponen halaman menjadi
  * satu panggilan per kunjungan; keduanya berjalan dalam render yang sama.
  */
@@ -61,13 +67,20 @@ export const generateMetadata = async ({
 		truncate([genus && `${displayName} — ${genus}.`, flavorText].join(" ").trim()) ||
 		SITE_DESCRIPTION;
 
+	// URL artwork dibaca dari respons, tidak disusun dari pola id: sebagian
+	// bentuk khusus punya sprite tapi tidak punya artwork, dan menyusunnya
+	// sendiri menerbitkan pratinjau yang menunjuk gambar 404. Empat di antaranya
+	// nyata: mimikyu-busted, mimikyu-totem-busted, dan dua bentuk tatsugiri mega.
+	const artwork = pokemon.sprites.other?.["official-artwork"]?.front_default;
 	const images = [
-		{
-			url: `${POKEMON_ARTWORK_IMAGE}/${pokemon.id}.png`,
-			width: ARTWORK_SIZE,
-			height: ARTWORK_SIZE,
-			alt: displayName,
-		},
+		artwork
+			? {
+					url: artwork,
+					width: ARTWORK_SIZE,
+					height: ARTWORK_SIZE,
+					alt: displayName,
+				}
+			: SITE_SHARE_IMAGE,
 	];
 	const url = `/pokemon/${pokemon.name}`;
 

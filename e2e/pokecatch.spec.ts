@@ -428,9 +428,11 @@ test("a pokemon page ships its own crawlable metadata", async ({ page }) => {
 	await expect(page).toHaveTitle("Pikachu | PokeCatch");
 	expect(await isi('meta[property="og:title"]')).toBe("Pikachu");
 	// Artwork resmi, bukan sprite 96x96 yang terlalu kecil untuk pratinjau.
-	expect(await isi('meta[property="og:image"]')).toContain(
-		"official-artwork/25.png"
-	);
+	const gambar = await isi('meta[property="og:image"]');
+	expect(gambar).toContain("official-artwork/25.png");
+	// Tautannya harus benar-benar hidup: pratinjau yang menunjuk gambar 404
+	// terlihat sama saja dengan tidak punya gambar sama sekali.
+	expect((await page.request.get(gambar!)).status()).toBe(200);
 	// og:url yang relatif tidak sah menurut spesifikasi Open Graph.
 	expect(await isi('meta[property="og:url"]')).toBe(
 		`${origin}/pokemon/pikachu`
@@ -514,4 +516,20 @@ test("sitemap and robots point at absolute urls", async ({
 	// Koleksi hanya ada di localStorage tiap peramban, jadi tidak ada yang bisa
 	// diindeks dari sana.
 	expect(xml).not.toContain("/my-pokemon");
+});
+
+test("a pokemon without official artwork still shares a live image", async ({
+	page,
+}) => {
+	// mimikyu-busted punya sprite tapi tidak punya artwork resmi. Menyusun URL
+	// artwork dari pola id — seperti versi pertama fitur ini — menerbitkan
+	// pratinjau yang menunjuk gambar 404 untuk bentuk semacam ini.
+	await page.goto("/pokemon/mimikyu-busted");
+
+	const gambar = await page
+		.locator('meta[property="og:image"]')
+		.getAttribute("content");
+
+	expect(gambar).not.toContain("official-artwork");
+	expect((await page.request.get(gambar!)).status()).toBe(200);
 });

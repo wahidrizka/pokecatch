@@ -22,3 +22,14 @@ export const SITE_NAME = "PokeCatch";
 
 export const SITE_DESCRIPTION =
 	"Explore, view, and capture Pokémon from the Pokémon universe!";
+
+/*
+ * Persegi, jadi cocok untuk kartu ringkas yang dipakai kedua platform. Juga
+ * jadi cadangan halaman Pokemon yang tidak punya artwork resmi.
+ */
+export const SITE_SHARE_IMAGE = {
+	url: "/static/pokeball-transparent.png",
+	width: 870,
+	height: 870,
+	alt: SITE_NAME,
+};

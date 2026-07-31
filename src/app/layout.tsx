@@ -2,16 +2,8 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { GlobalProvider } from "@/context";
 import { pixelFont } from "@/configs/fonts";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/configs/site";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_SHARE_IMAGE, SITE_URL } from "@/configs/site";
 import { Toaster } from "react-hot-toast";
-
-/* Persegi, jadi cocok untuk kartu ringkas yang dipakai kedua platform. */
-const SHARE_IMAGE = {
-	url: "/static/pokeball-transparent.png",
-	width: 870,
-	height: 870,
-	alt: SITE_NAME,
-};
 
 export const metadata: Metadata = {
 	metadataBase: new URL(SITE_URL),
@@ -37,13 +29,13 @@ export const metadata: Metadata = {
 		title: SITE_NAME,
 		description: SITE_DESCRIPTION,
 		url: "/",
-		images: [SHARE_IMAGE],
+		images: [SITE_SHARE_IMAGE],
 	},
 	twitter: {
 		card: "summary",
 		title: SITE_NAME,
 		description: SITE_DESCRIPTION,
-		images: [SHARE_IMAGE],
+		images: [SITE_SHARE_IMAGE],
 	},
 	icons: [
 		{ rel: "icon", url: "/favicon/favicon.ico" },

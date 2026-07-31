@@ -15,11 +15,3 @@ export const POKEMON_EVOLUTION_API = POKEMON_API.replace(
 	/\/pokemon$/,
 	"/evolution-chain"
 );
-
-/*
- * Artwork resmi 475x475, dipakai sebagai gambar og:image — sprite 96x96 terlalu
- * kecil untuk pratinjau tautan. Cakupannya sama persis dengan sprite biasa
- * (id 1-1025 dan 10001+), jadi setiap Pokemon yang bisa dibuka aplikasi ini
- * dipastikan punya artwork-nya.
- */
-export const POKEMON_ARTWORK_IMAGE = `${POKEMON_IMAGE}/other/official-artwork`;
