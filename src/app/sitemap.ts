@@ -12,7 +12,13 @@ const ALL_POKEMON = 100000;
  * masing-masing, jadi yang dilihat perayap selalu keadaan kosong.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const { results } = await getAllPokemon(ALL_POKEMON);
+	// Degradasi, pola yang sama dengan seluruh aplikasi: PokeAPI milik pihak
+	// ketiga dan tanpa jaminan ketersediaan. Satu gangguan sesaat saat sitemap
+	// pertama kali dibuat tidak boleh membuat rutenya menjawab 500 — sitemap
+	// berisi rute statis saja masih jauh lebih berguna daripada tidak ada.
+	const { results } = await getAllPokemon(ALL_POKEMON).catch(() => ({
+		results: [],
+	}));
 
 	return [
 		{ url: SITE_URL, changeFrequency: "monthly", priority: 1 },
