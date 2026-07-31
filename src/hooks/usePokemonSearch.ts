@@ -93,7 +93,7 @@ export const usePokemonSearch = () => {
 
 		const needle = query.trim().toLowerCase();
 		const capturedOf = (name: string) =>
-			state.pokemonSummary?.find((entry) => entry.name === name.toUpperCase())
+			state.pokemonSummary.find((entry) => entry.name === name.toUpperCase())
 				?.captured ?? 0;
 
 		return allPokemon
