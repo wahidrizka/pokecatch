@@ -1,23 +1,9 @@
 import type { Metadata } from "next";
-import { VT323 } from "next/font/google";
 import "@/styles/globals.css";
 import { GlobalProvider } from "@/context";
+import { pixelFont } from "@/configs/fonts";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/configs/site";
 import { Toaster } from "react-hot-toast";
-
-/*
- * Di-host sendiri, bukan lewat @import ke Google Fonts. Pengukuran menunjukkan
- * pertukaran font dari font cadangan ke VT323 adalah satu-satunya penyebab
- * pergeseran tata letak di /pokemons: memblokir permintaannya menurunkan CLS
- * dari 0.214 ke 0. next/font menyediakan font cadangan yang metriknya sudah
- * disetarakan, sehingga pertukarannya tidak lagi menggeser apa pun.
- */
-const pixelFont = VT323({
-	weight: "400",
-	subsets: ["latin"],
-	display: "swap",
-	variable: "--font-vt323",
-});
 
 /* Persegi, jadi cocok untuk kartu ringkas yang dipakai kedua platform. */
 const SHARE_IMAGE = {
