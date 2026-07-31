@@ -16,11 +16,11 @@ export const usePokemonList = () => {
 		setIsLoading(true);
 
 		try {
-			const loaded = state.pokemons ?? [];
+			const loaded = state.pokemons;
 			const page = await getAllPokemon(PAGE_SIZE, loaded.length);
 
 			const capturedOf = (name: string) =>
-				state.pokemonSummary?.find((entry) => entry.name === name.toUpperCase())
+				state.pokemonSummary.find((entry) => entry.name === name.toUpperCase())
 					?.captured ?? 0;
 
 			setState({
@@ -42,11 +42,11 @@ export const usePokemonList = () => {
 	}, [state, setState]);
 
 	useEffect(() => {
-		if (hasRequested.current || state.pokemons?.length) return;
+		if (hasRequested.current || state.pokemons.length) return;
 
 		hasRequested.current = true;
 		loadMore();
 	}, [state.pokemons, loadMore]);
 
-	return { pokemons: state.pokemons ?? [], isLoading, hasMore, loadMore };
+	return { pokemons: state.pokemons, isLoading, hasMore, loadMore };
 };
