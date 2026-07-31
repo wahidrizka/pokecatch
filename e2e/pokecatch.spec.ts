@@ -411,3 +411,107 @@ test("a branching evolution chain lists every branch side by side", async ({ pag
 	await expect(page.getByText("→", { exact: true })).toHaveCount(1);
 	await expect(page.locator('a[href="/pokemon/sylveon"]')).toBeVisible();
 });
+
+/*
+ * Semua isi halaman diambil di peramban, jadi yang diuji di sini adalah bagian
+ * yang justru tidak dilihat pengguna: apa yang diterima perayap dan pratinjau
+ * tautan sebelum satu baris JavaScript pun berjalan.
+ */
+test("a pokemon page ships its own crawlable metadata", async ({ page }) => {
+	const response = await page.goto("/pokemon/pikachu");
+	expect(response?.status()).toBe(200);
+
+	const origin = new URL(page.url()).origin;
+	const isi = (pemilih: string) =>
+		page.locator(pemilih).getAttribute("content");
+
+	await expect(page).toHaveTitle("Pikachu | PokeCatch");
+	expect(await isi('meta[property="og:title"]')).toBe("Pikachu");
+	// Artwork resmi, bukan sprite 96x96 yang terlalu kecil untuk pratinjau.
+	expect(await isi('meta[property="og:image"]')).toContain(
+		"official-artwork/25.png"
+	);
+	// og:url yang relatif tidak sah menurut spesifikasi Open Graph.
+	expect(await isi('meta[property="og:url"]')).toBe(
+		`${origin}/pokemon/pikachu`
+	);
+	expect(
+		await page.locator('link[rel="canonical"]').getAttribute("href")
+	).toBe(`${origin}/pokemon/pikachu`);
+	// Deskripsi berasal dari /pokemon-species, bukan teks umum situs.
+	expect(await isi('meta[name="description"]')).toContain("Mouse Pokémon");
+});
+
+test("an unknown pokemon name answers 404 instead of an empty page", async ({
+	page,
+}) => {
+	const response = await page.goto("/pokemon/bukan-pokemon-asli");
+
+	expect(response?.status()).toBe(404);
+	await expect(page.getByRole("heading", { name: "404" })).toBeVisible();
+	await expect(page.getByRole("link", { name: /explore/i })).toBeVisible();
+});
+
+test("responses carry the security headers", async ({ page }) => {
+	const response = await page.goto("/pokemons");
+	const headers = response!.headers();
+
+	expect(headers["x-frame-options"]).toBe("DENY");
+	expect(headers["x-content-type-options"]).toBe("nosniff");
+	expect(headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+	expect(headers["strict-transport-security"]).toContain("max-age=");
+	expect(headers["permissions-policy"]).toContain("camera=()");
+
+	const csp = headers["content-security-policy"];
+	expect(csp).toContain("frame-ancestors 'none'");
+	expect(csp).toContain("object-src 'none'");
+	// Font di-host sendiri sejak pindah ke next/font; tidak boleh ada jalan balik
+	// ke Google Fonts, karena pertukaran fontnya yang dulu merusak CLS.
+	expect(csp).not.toContain("fonts.googleapis.com");
+	expect(csp).not.toContain("fonts.gstatic.com");
+});
+
+test("the policy really blocks a foreign origin", async ({ page }) => {
+	await page.goto("/pokemons");
+
+	// Tanpa pemeriksaan ini, test header di atas hanya membuktikan teksnya ada,
+	// bukan bahwa peramban benar-benar menegakkannya.
+	//
+	// Sinyalnya harus securitypolicyviolation, bukan fetch yang gagal: fetch
+	// lintas-origin juga ditolak CORS, sehingga versi itu lulus bahkan ketika
+	// seluruh header dicabut. Sudah terbukti begitu saat diuji.
+	const pelanggaran = await page.evaluate(async () => {
+		const tercatat: string[] = [];
+		document.addEventListener("securitypolicyviolation", (event) => {
+			tercatat.push((event as SecurityPolicyViolationEvent).violatedDirective);
+		});
+
+		const script = document.createElement("script");
+		script.src = "https://cdn.jsdelivr.net/npm/tidak-ada.js";
+		document.body.appendChild(script);
+		await new Promise((resolve) => setTimeout(resolve, 1_000));
+
+		return tercatat;
+	});
+
+	expect(pelanggaran.join(",")).toContain("script-src");
+});
+
+test("sitemap and robots point at absolute urls", async ({
+	request,
+	baseURL,
+}) => {
+	const robots = await request.get("/robots.txt");
+	expect(robots.status()).toBe(200);
+	const aturan = await robots.text();
+	expect(aturan).toContain("Disallow: /my-pokemon");
+	expect(aturan).toContain(`${baseURL}/sitemap.xml`);
+
+	const sitemap = await request.get("/sitemap.xml", { timeout: 45_000 });
+	expect(sitemap.status()).toBe(200);
+	const xml = await sitemap.text();
+	expect(xml).toContain(`<loc>${baseURL}/pokemon/pikachu</loc>`);
+	// Koleksi hanya ada di localStorage tiap peramban, jadi tidak ada yang bisa
+	// diindeks dari sana.
+	expect(xml).not.toContain("/my-pokemon");
+});

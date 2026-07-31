@@ -33,5 +33,9 @@ export default defineConfig({
 		url: E2E_URL,
 		reuseExistingServer: false,
 		timeout: 120_000,
+		// SITE_URL membaca PORT untuk menyusun URL absolut di canonical, og:url,
+		// sitemap, dan robots. Tanpa ini semuanya menyebut :3000 sementara server
+		// melayani :3100, dan test metadata menguji alamat yang salah.
+		env: { PORT: String(E2E_PORT) },
 	},
 });
