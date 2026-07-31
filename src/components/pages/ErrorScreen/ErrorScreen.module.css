@@ -1,0 +1,42 @@
+/*
+ * Latar dan penataan mengikuti StartScreen supaya halaman galat tetap terasa
+ * bagian dari game. Bedanya lebar memakai 100%, bukan 100vw milik StartScreen:
+ * 100vw ikut menghitung lebar batang gulir, sehingga pada peramban yang memberi
+ * batang gulir ruang tata letak, dokumennya jadi lebih lebar dari viewport dan
+ * muncul gulir mendatar. Peramban headless memberi batang gulir lebar nol, jadi
+ * guard tata letak e2e tidak akan menangkap ini — alasannya peramban sungguhan,
+ * bukan test.
+ */
+.Container {
+  background-image: url(/static/pokemon-group.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: var(--spacing-base);
+}
+
+.Centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--spacing-base);
+  text-align: center;
+}
+
+.Description {
+  max-width: 34ch;
+}
+
+.Actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-small);
+}

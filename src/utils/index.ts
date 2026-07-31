@@ -1,3 +1,5 @@
+import { PokemonSpeciesResponseType } from "@/types/pokemon";
+
 export const getPokemonId = (url: string) => {
 	const urlSplit = url.split("/");
 	if (urlSplit?.length) return urlSplit[urlSplit.length - 2];
@@ -7,6 +9,34 @@ export const getPokemonId = (url: string) => {
 
 /** Teks Pokedex PokeAPI mengandung \n dan \f dari tata letak game aslinya. */
 export const normalizeFlavorText = (text: string) => text.split(/\s+/).join(" ");
+
+/**
+ * Entri terakhir = teks dari game paling baru. Dipakai bersama oleh isi halaman
+ * dan deskripsi metadata, supaya keduanya tidak mungkin menyimpang.
+ */
+export const getEnglishFlavorText = (species: PokemonSpeciesResponseType) => {
+	const english = species.flavor_text_entries.filter(
+		(entry) => entry.language.name === "en"
+	);
+
+	return english.length
+		? normalizeFlavorText(english[english.length - 1].flavor_text)
+		: "";
+};
+
+export const getEnglishGenus = (species: PokemonSpeciesResponseType) =>
+	species.genera.find((entry) => entry.language.name === "en")?.genus ?? "";
+
+/**
+ * "deoxys-attack" -> "Deoxys Attack". Untuk judul dan deskripsi halaman, yang
+ * dibaca manusia dan mesin pencari — bukan untuk UI, yang memakai huruf besar
+ * semua lewat text-transform.
+ */
+export const toDisplayName = (name: string) =>
+	name
+		.split("-")
+		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+		.join(" ");
 
 /** Diam saja bila gagal: berkas hilang atau peramban menolak memutar. */
 export const playCry = (src: string) => {

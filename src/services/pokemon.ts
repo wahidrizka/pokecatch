@@ -19,6 +19,15 @@ import axios from "axios";
  * hanya tampak kosong tanpa pesan apa pun.
  */
 
+/**
+ * Membedakan "tidak ada Pokemon bernama itu" dari "PokeAPI sedang bermasalah".
+ * Tanpa ini, gangguan jaringan sesaat akan disajikan sebagai halaman 404 —
+ * memberi tahu perayap bahwa halaman yang sebenarnya sah itu tidak ada.
+ * Pengetahuan soal axios sengaja berhenti di lapisan ini.
+ */
+export const isNotFoundError = (error: unknown) =>
+	axios.isAxiosError(error) && error.response?.status === 404;
+
 export const getAllPokemon = async (limit = 50, offset = 0) => {
 	const { data } = await axios.get<AllPokemonResponseType>(POKEMON_API, {
 		params: { limit, offset },

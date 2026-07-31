@@ -77,6 +77,8 @@ export type PokemonDetailType = {
 				front_default: string | null;
 				front_shiny: string | null;
 			};
+			// Null untuk sebagian bentuk khusus; dipakai sebagai gambar og:image.
+			"official-artwork"?: { front_default: string | null };
 		};
 	};
 	stats: Array<{
